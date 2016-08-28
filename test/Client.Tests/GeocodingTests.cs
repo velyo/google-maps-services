@@ -25,17 +25,31 @@ namespace Velyo.Google.Services.Tests
         [TestMethod]
         public void GetResponse_Result()
         {
-            GeoRequest request = new GeoRequest("plovdiv bulgaria");
-            GeoResponse response = request.GetResponse();
+            GeocodingRequest request = new GeocodingRequest("plovdiv bulgaria");
+            GeocodingResponse response = request.GetResponse();
 
             Assert.IsNotNull(response);
         }
 
         [TestMethod]
+        public void GetResponse_ResultAsync()
+        {
+            GeocodingRequest request = new GeocodingRequest("plovdiv bulgaria");
+            GeocodingResponse response = request.GetResponseAsync();
+
+            Assert.IsNotNull(response);
+
+            GeoLocation actual = response.Results[0].Geometry.Location;
+            GeoLocation expected = new GeoLocation(42.1354079, 24.7452904);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void GetResponse_With_Address()
         {
-            GeoRequest request = new GeoRequest("plovdiv bulgaria");
-            GeoResponse response = request.GetResponse();
+            GeocodingRequest request = new GeocodingRequest("plovdiv bulgaria");
+            GeocodingResponse response = request.GetResponse();
 
             GeoLocation actual = response.Results[0].Geometry.Location;
             GeoLocation expected = new GeoLocation(42.1354079, 24.7452904);
@@ -46,8 +60,8 @@ namespace Velyo.Google.Services.Tests
         [TestMethod]
         public void GetResponse_With_LatLng()
         {
-            GeoRequest request = new GeoRequest(42.1354079, 24.7452904);
-            GeoResponse response = request.GetResponse();
+            GeocodingRequest request = new GeocodingRequest(42.1354079, 24.7452904);
+            GeocodingResponse response = request.GetResponse();
 
             string actual = response.Results[0].FormattedAddress;
             string expected = @"bul. ""Hristo Botev"" 56, 4000 Plovdiv, Bulgaria";
@@ -58,8 +72,8 @@ namespace Velyo.Google.Services.Tests
         [TestMethod]
         public void GetResponse_With_Location()
         {
-            GeoRequest request = new GeoRequest(new GeoLocation(42.1354079, 24.7452904));
-            GeoResponse response = request.GetResponse();
+            GeocodingRequest request = new GeocodingRequest(new GeoLocation(42.1354079, 24.7452904));
+            GeocodingResponse response = request.GetResponse();
 
             string actual = response.Results[0].FormattedAddress;
             string expected = @"bul. ""Hristo Botev"" 56, 4000 Plovdiv, Bulgaria";
@@ -70,8 +84,8 @@ namespace Velyo.Google.Services.Tests
         [TestMethod]
         public void GetResponse_With_StreetAddress()
         {
-            GeoRequest request = new GeoRequest("Alice Springs, Northern Territory, 0870, Australia﻿﻿﻿﻿");
-            GeoResponse response = request.GetResponse();
+            GeocodingRequest request = new GeocodingRequest("Alice Springs, Northern Territory, 0870, Australia﻿﻿﻿﻿");
+            GeocodingResponse response = request.GetResponse();
 
             Assert.AreEqual(GeoStatus.Ok, response.Status);
 
@@ -84,7 +98,7 @@ namespace Velyo.Google.Services.Tests
         [TestMethod]
         public void GetResponse_With_AddressAndLocation()
         {
-            var request = new GeoRequest(42.1354079, 24.7452904);
+            var request = new GeocodingRequest(42.1354079, 24.7452904);
             request.Address = "plovdiv bulgaria";
 
             try
@@ -103,7 +117,7 @@ namespace Velyo.Google.Services.Tests
         [TestMethod]
         public void GetResponse_Without_AddressAndLocation()
         {
-            var request = new GeoRequest();
+            var request = new GeocodingRequest();
 
             try
             {
@@ -121,8 +135,8 @@ namespace Velyo.Google.Services.Tests
         [TestMethod]
         public void GetResponse_Status_OK()
         {
-            GeoRequest target = new GeoRequest("plovdiv bulgaria");
-            GeoResponse actual = target.GetResponse();
+            GeocodingRequest target = new GeocodingRequest("plovdiv bulgaria");
+            GeocodingResponse actual = target.GetResponse();
 
             GeoStatus expected = GeoStatus.Ok;
 

@@ -2,12 +2,12 @@
 
 namespace Velyo.Google.Services
 {
-    public partial class GeoResponse : IEnumerable<GeoResult>
+    public partial class GeocodingResponse : IEnumerable<GeoResult>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeoResponse"/> class.
+        /// Initializes a new instance of the <see cref="GeocodingResponse"/> class.
         /// </summary>
-        internal GeoResponse(JsonGeoData json)
+        internal GeocodingResponse(JsonGeoData json)
         {
 
             Status = json.status;

@@ -53,11 +53,11 @@
     <Compile Include="GeoAddress.cs" />
     <Compile Include="GeoAddressType.cs" />
     <Compile Include="GeoBounds.cs" />
+    <Compile Include="GeocodingRequest.cs" />
+    <Compile Include="GeocodingResponse.cs" />
     <Compile Include="GeoJsonData.cs" />
     <Compile Include="GeoLocationType.cs" />
     <Compile Include="Geometry.cs" />
-    <Compile Include="GeoRequest.cs" />
-    <Compile Include="GeoResponse.cs" />
     <Compile Include="GeoResult.cs" />
     <Compile Include="GeoLocation.cs" />
     <Compile Include="GeoStatus.cs" />
