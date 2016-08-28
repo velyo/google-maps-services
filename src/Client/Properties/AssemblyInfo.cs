@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Velyo.Google.Client")]
 [assembly: AssemblyDescription(".NET client library for Google Maps API Web Services")]
 [assembly: AssemblyCompany("Velyo Ivanov (http://velyo.net/)")]
-[assembly: AssemblyProduct("Google Maps API client")]
+[assembly: AssemblyProduct("Google Maps Services Client (https://github.com/velyo/google-maps-services)")]
 [assembly: AssemblyCopyright("Copyright © 2010 Velyo Ivanov")]
 
 [assembly: ComVisible(false)]
@@ -20,6 +20,6 @@ using System.Runtime.InteropServices;
 
 [assembly: Guid("41c1cf7e-c4f7-4ec5-8eef-7bab183344af")]
 
-[assembly: AssemblyVersion("1.3.*")]
+[assembly: AssemblyVersion("2.0.*")]
 
 [assembly: InternalsVisibleTo("Client.Tests")]

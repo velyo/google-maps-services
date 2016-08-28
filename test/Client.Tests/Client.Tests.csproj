@@ -75,7 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GeocodingTests.cs" />
-    <Compile Include="IssueTest.cs" />
+    <Compile Include="IssueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
