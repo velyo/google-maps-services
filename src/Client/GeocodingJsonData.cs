@@ -3,7 +3,7 @@
     /// <summary>
     /// 
     /// </summary>
-    public class JsonGeoData
+    public class GeocodingJsonData
     {
         /// <summary>
         /// Gets or sets the status.

@@ -7,13 +7,13 @@ namespace Velyo.Google.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="GeocodingResponse"/> class.
         /// </summary>
-        internal GeocodingResponse(JsonGeoData json)
+        internal GeocodingResponse(GeocodingJsonData json)
         {
 
             Status = json.status;
             List<GeocodingResult> results = new List<GeocodingResult>();
 
-            if (Status == ResponseStatus.Ok)
+            if (Status == ResponseStatus.OK)
             {
                 foreach (var r in json.results)
                 {

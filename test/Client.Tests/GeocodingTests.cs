@@ -135,14 +135,14 @@ namespace Velyo.Google.Services.Tests
             GeocodingRequest request = new GeocodingRequest("Alice Springs, Northern Territory, 0870, Australia﻿﻿﻿﻿");
             GeocodingResponse response = request.GetResponse();
 
-            Assert.AreEqual(ResponseStatus.Ok, response.Status);
+            Assert.AreEqual(ResponseStatus.OK, response.Status);
 
             Thread.Sleep(100);
 
             request.Address = "4 Cassia Ct, Alice Springs, Northern Territory, 0870, Australia";
             response = request.GetResponse();
 
-            Assert.AreEqual(ResponseStatus.Ok, response.Status);
+            Assert.AreEqual(ResponseStatus.OK, response.Status);
         }
 
         [TestMethod]
@@ -224,16 +224,9 @@ namespace Velyo.Google.Services.Tests
             GeocodingRequest target = new GeocodingRequest("plovdiv bulgaria");
             GeocodingResponse actual = target.GetResponse();
 
-            ResponseStatus expected = ResponseStatus.Ok;
+            ResponseStatus expected = ResponseStatus.OK;
 
             Assert.AreEqual(expected, actual.Status);
-        }
-
-        [TestInitialize]
-        private void BeforeTest()
-        {
-            // bypass free requests limit
-            Thread.Sleep(100);
         }
     }
 }

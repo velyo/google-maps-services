@@ -21,11 +21,12 @@ namespace Velyo.Google.Services
         private ManualResetEvent _asyncTrigger;
 #endif
 
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
         /// </summary>
         /// <param name="address">The address.</param>
-        public GeocodingRequest(string address)
+        public GeocodingRequest(string address) : this()
         {
             Address = address;
         }
@@ -34,7 +35,7 @@ namespace Velyo.Google.Services
         /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
         /// </summary>
         /// <param name="location">The location.</param>
-        public GeocodingRequest(LatLng location)
+        public GeocodingRequest(LatLng location) : this()
         {
             Location = location;
         }
@@ -44,7 +45,7 @@ namespace Velyo.Google.Services
         /// </summary>
         /// <param name="latitude">The latitude.</param>
         /// <param name="longitude">The longitude.</param>
-        public GeocodingRequest(double latitude, double longitude)
+        public GeocodingRequest(double latitude, double longitude) : this()
         {
             Location = new LatLng(latitude, longitude);
         }
@@ -52,7 +53,10 @@ namespace Velyo.Google.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
         /// </summary>
-        public GeocodingRequest() { }
+        public GeocodingRequest()
+        {
+            AutoRetry = true;
+        }
 
 
         /// <summary>
@@ -87,6 +91,11 @@ namespace Velyo.Google.Services
         /// </summary>
         /// <value>The region.</value>
         public string Region { get; set; }
+
+        /// <summary>
+        /// Retry request on query limit reached. It's on by default.
+        /// </summary>
+        public bool AutoRetry { get; set; }
 
 
         /// <summary>
@@ -130,12 +139,29 @@ namespace Velyo.Google.Services
             Validate();
 
             string url = BuildRequestUrl();
-            var request = WebRequest.Create(url);
+            GeocodingJsonData jsonData = null;
 
-            using (var response = request.GetResponse())
+            for (int n = 1; n <= 3; n++)
             {
-                return BuildResponse(response);
+                var request = WebRequest.Create(url);
+
+                using (var response = request.GetResponse())
+                {
+                    jsonData = GetData(response);
+                }
+
+                if (AutoRetry && (jsonData.status == ResponseStatus.OVER_QUERY_LIMIT))
+                {
+#if DEBUG
+                    Debug.WriteLine("[GetResponse]: Auto retry #" + n);
+#endif
+                    Thread.Sleep(n * 100);
+                    continue;
+                }
+                break;
             }
+
+            return new GeocodingResponse(jsonData);
         }
 
 #if NET35 || NET40
@@ -150,23 +176,40 @@ namespace Velyo.Google.Services
             Validate();
 
             string url = BuildRequestUrl();
-            var request = WebRequest.Create(url);
+            GeocodingJsonData jsonData = null;
 
-            using (_asyncTrigger = new ManualResetEvent(false))
+            for (int n = 1; n <= 3; n++)
             {
+                var request = WebRequest.Create(url);
+
+                using (_asyncTrigger = new ManualResetEvent(false))
+                {
 #if DEBUG
-                Debug.WriteLine("[GetResponseAsync]: Thread #" + Thread.CurrentThread.ManagedThreadId);
+                    Debug.WriteLine("[GetResponseAsync]: Thread #" + Thread.CurrentThread.ManagedThreadId);
 #endif
-                request.BeginGetResponse(new AsyncCallback(FinishGetResponseAsync), request);
-                // Wait until the ManualResetEvent is set so that the application does not exit until after the callback is called.
-                // TODO add and handle proper timeout
-                _asyncTrigger.WaitOne();
+                    request.BeginGetResponse(new AsyncCallback(FinishGetResponseAsync), request);
+                    // Wait until the ManualResetEvent is set so that the application does not exit until after the callback is called.
+                    // TODO add and handle proper timeout
+                    _asyncTrigger.WaitOne();
+                }
 
                 using (_asyncResponse)
                 {
-                    return BuildResponse(_asyncResponse);
+                    jsonData = GetData(_asyncResponse);
                 }
+
+                if (AutoRetry && (jsonData.status == ResponseStatus.OVER_QUERY_LIMIT))
+                {
+#if DEBUG
+                    Debug.WriteLine("[GetResponse]: Auto retry #" + n);
+#endif
+                    Thread.Sleep(n * 100);
+                    continue;
+                }
+                break;
             }
+
+            return new GeocodingResponse(jsonData);
         }
 
         private void FinishGetResponseAsync(IAsyncResult result)
@@ -176,7 +219,7 @@ namespace Velyo.Google.Services
 #endif
             var request = result.AsyncState as WebRequest;
 
-            if(request != null)
+            if (request != null)
             {
                 _asyncResponse = request.EndGetResponse(result);
                 // Set the ManualResetEvent so the main thread can exit.
@@ -191,12 +234,29 @@ namespace Velyo.Google.Services
             Validate();
 
             string url = BuildRequestUrl();
-            var request = WebRequest.Create(url);
+            GeocodingJsonData jsonData = null;
 
-            using (var response = await request.GetResponseAsync())
+            for (int n = 1; n <= 3; n++)
             {
-                return BuildResponse(response);
+                var request = WebRequest.Create(url);
+
+                using (var response = await request.GetResponseAsync())
+                {
+                    jsonData = GetData(response);
+                }
+
+                if (AutoRetry && (jsonData.status == ResponseStatus.OVER_QUERY_LIMIT))
+                {
+#if DEBUG
+                    Debug.WriteLine("[GetResponse]: Auto retry #" + n);
+#endif
+                    await Task.Delay(n * 100);
+                    continue;
+                }
+                break;
             }
+
+            return new GeocodingResponse(jsonData);
         }
 #endif
 
@@ -208,7 +268,7 @@ namespace Velyo.Google.Services
             {
                 buffer.AppendFormat("latlng={0}", Location.ToString());
             }
-            else 
+            else
             {
                 buffer.AppendFormat("address={0}", HttpUtility.UrlEncode(Address));
             }
@@ -227,9 +287,9 @@ namespace Velyo.Google.Services
             return buffer.ToString();
         }
 
-        private GeocodingResponse BuildResponse(WebResponse response)
+        private GeocodingJsonData GetData(WebResponse response)
         {
-            JsonGeoData jsonData = null;
+            GeocodingJsonData jsonData = null;
             string responseData = null;
 
             using (var reader = new StreamReader(response.GetResponseStream()))
@@ -240,15 +300,15 @@ namespace Velyo.Google.Services
             if (responseData != null)
             {
                 var serializer = new JavaScriptSerializer();
-                jsonData = serializer.Deserialize<JsonGeoData>(responseData);
+                jsonData = serializer.Deserialize<GeocodingJsonData>(responseData);
             }
 
-            return new GeocodingResponse(jsonData);
+            return jsonData;
         }
 
         private void Validate()
         {
-            if((Location != null) && (!string.IsNullOrEmpty(Address)))
+            if ((Location != null) && (!string.IsNullOrEmpty(Address)))
             {
                 throw new InvalidOperationException("Geocoding request must contain only one of 'Address' or 'Location'.");
             }
