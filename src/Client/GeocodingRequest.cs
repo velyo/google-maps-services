@@ -4,7 +4,9 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
+#if NET45
 using System.Threading.Tasks;
+#endif
 using System.Web;
 using System.Web.Script.Serialization;
 
@@ -14,9 +16,10 @@ namespace Velyo.Google.Services
     {
         static readonly string RequestUrl = "http://maps.google.com/maps/api/geocode/json?";
 
+#if NET35 || NET40
         private WebResponse _asyncResponse;
         private ManualResetEvent _asyncTrigger;
-
+#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
@@ -180,7 +183,21 @@ namespace Velyo.Google.Services
                 _asyncTrigger.Set();
             }
         }
-#else
+#endif
+
+#if NET45
+        public async Task<GeocodingResponse> GetResponseAsync()
+        {
+            Validate();
+
+            string url = BuildRequestUrl();
+            var request = WebRequest.Create(url);
+
+            using (var response = await request.GetResponseAsync())
+            {
+                return BuildResponse(response);
+            }
+        }
 #endif
 
         private string BuildRequestUrl()

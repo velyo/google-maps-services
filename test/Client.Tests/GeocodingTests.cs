@@ -1,5 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+#if NET45
+using System.Threading.Tasks;
+#endif
 
 namespace Velyo.Google.Services.Tests
 {
@@ -37,6 +40,22 @@ namespace Velyo.Google.Services.Tests
         {
             GeocodingRequest request = new GeocodingRequest("plovdiv bulgaria");
             GeocodingResponse response = request.GetResponseAsync();
+
+            Assert.IsNotNull(response);
+
+            GeoLocation actual = response.Results[0].Geometry.Location;
+            GeoLocation expected = new GeoLocation(42.1354079, 24.7452904);
+
+            Assert.AreEqual(expected, actual);
+        }
+#endif
+
+#if NET45
+        [TestMethod]
+        public async Task GetResponse_ResultAsync()
+        {
+            GeocodingRequest request = new GeocodingRequest("plovdiv bulgaria");
+            GeocodingResponse response = await request.GetResponseAsync();
 
             Assert.IsNotNull(response);
 
