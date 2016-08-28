@@ -2,13 +2,13 @@
 
 namespace Velyo.Google.Services
 {
-    public class GeoResult
+    public class GeocodingResult
     {
         /// <summary>
         /// Gets or sets the address_components.
         /// </summary>
         /// <value>The address_components.</value>
-        public IEnumerable<GeoAddress> AddressComponents { get; set; }
+        public IEnumerable<AddressComponent> AddressComponents { get; set; }
 
         /// <summary>
         /// Gets or sets the formatted_address.

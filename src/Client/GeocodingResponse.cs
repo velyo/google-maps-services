@@ -2,7 +2,7 @@
 
 namespace Velyo.Google.Services
 {
-    public partial class GeocodingResponse : IEnumerable<GeoResult>
+    public partial class GeocodingResponse : IEnumerable<GeocodingResult>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GeocodingResponse"/> class.
@@ -11,17 +11,17 @@ namespace Velyo.Google.Services
         {
 
             Status = json.status;
-            List<GeoResult> results = new List<GeoResult>();
+            List<GeocodingResult> results = new List<GeocodingResult>();
 
-            if (Status == GeoStatus.Ok)
+            if (Status == ResponseStatus.Ok)
             {
                 foreach (var r in json.results)
                 {
 
-                    List<GeoAddress> addressComponents = new List<GeoAddress>(r.address_components.Length);
+                    List<AddressComponent> addressComponents = new List<AddressComponent>(r.address_components.Length);
                     foreach (var ac in r.address_components)
                     {
-                        addressComponents.Add(new GeoAddress
+                        addressComponents.Add(new AddressComponent
                         {
                             LongName = ac.long_name,
                             ShortName = ac.short_name,
@@ -33,14 +33,14 @@ namespace Velyo.Google.Services
 
                     if (r.geometry.bounds != null)
                     {
-                        geometry.Bounds = new GeoBounds
+                        geometry.Bounds = new Bounds
                         {
-                            NorthEast = new GeoLocation
+                            NorthEast = new LatLng
                             {
                                 Latitude = r.geometry.bounds.northeast.lat,
                                 Longitude = r.geometry.bounds.northeast.lng
                             },
-                            SouthWest = new GeoLocation
+                            SouthWest = new LatLng
                             {
                                 Latitude = r.geometry.bounds.southwest.lat,
                                 Longitude = r.geometry.bounds.southwest.lng
@@ -50,7 +50,7 @@ namespace Velyo.Google.Services
 
                     if (r.geometry.location != null)
                     {
-                        geometry.Location = new GeoLocation
+                        geometry.Location = new LatLng
                         {
                             Latitude = r.geometry.location.lat,
                             Longitude = r.geometry.location.lng
@@ -59,14 +59,14 @@ namespace Velyo.Google.Services
 
                     if (r.geometry.viewport != null)
                     {
-                        geometry.Viewport = new GeoBounds
+                        geometry.Viewport = new Bounds
                         {
-                            NorthEast = new GeoLocation
+                            NorthEast = new LatLng
                             {
                                 Latitude = r.geometry.viewport.northeast.lat,
                                 Longitude = r.geometry.viewport.northeast.lng
                             },
-                            SouthWest = new GeoLocation
+                            SouthWest = new LatLng
                             {
                                 Latitude = r.geometry.viewport.southwest.lat,
                                 Longitude = r.geometry.viewport.southwest.lng
@@ -74,7 +74,7 @@ namespace Velyo.Google.Services
                         };
                     }
 
-                    results.Add(new GeoResult
+                    results.Add(new GeocodingResult
                     {
                         AddressComponents = addressComponents,
                         FormattedAddress = r.formatted_address,
@@ -93,13 +93,13 @@ namespace Velyo.Google.Services
         /// Gets or sets the results.
         /// </summary>
         /// <value>The results.</value>
-        public IList<GeoResult> Results { get; protected internal set; }
+        public IList<GeocodingResult> Results { get; protected internal set; }
 
         /// <summary>
         /// Gets or sets the status.
         /// </summary>
         /// <value>The status.</value>
-        public GeoStatus Status { get; protected internal set; }
+        public ResponseStatus Status { get; protected internal set; }
 
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Velyo.Google.Services
         /// <returns>
         /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
         /// </returns>
-        public IEnumerator<GeoResult> GetEnumerator()
+        public IEnumerator<GeocodingResult> GetEnumerator()
         {
             return Results.GetEnumerator();
         }

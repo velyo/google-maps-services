@@ -9,7 +9,7 @@
         /// Gets or sets the status.
         /// </summary>
         /// <value>The status.</value>
-        public GeoStatus status { get; set; }
+        public ResponseStatus status { get; set; }
 
         /// <summary>
         /// Gets or sets the results.
@@ -44,7 +44,7 @@
         {
             public JsonBounds bounds { get; set; }
             public JsonLocation location { get; set; }
-            public GeoLocationType location_type { get; set; }
+            public LocationType location_type { get; set; }
             public JsonBounds viewport { get; set; }
         }
 

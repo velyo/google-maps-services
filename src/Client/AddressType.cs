@@ -1,6 +1,6 @@
 ﻿namespace Velyo.Google.Services
 {
-    public static class GeoAddressType
+    public static class AddressType
     {
         /// <summary>
         /// indicates a precise street address

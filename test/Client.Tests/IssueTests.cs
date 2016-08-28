@@ -26,7 +26,7 @@ namespace Velyo.Google.Services.Tests
         {
             var request = new GeocodingRequest("BH5 1DP");
             var response = request.GetResponse();
-            Assert.AreEqual(GeoStatus.Ok, response.Status);
+            Assert.AreEqual(ResponseStatus.Ok, response.Status);
         }
 
         [TestMethod]
@@ -35,7 +35,7 @@ namespace Velyo.Google.Services.Tests
 
             GeocodingRequest request = new GeocodingRequest("Yonge and Finch Toronto Canada Ontario");
             GeocodingResponse response = request.GetResponse();
-            Assert.AreEqual(GeoStatus.Ok, response.Status);
+            Assert.AreEqual(ResponseStatus.Ok, response.Status);
         }
 
         [TestMethod]
@@ -44,7 +44,7 @@ namespace Velyo.Google.Services.Tests
 
             GeocodingRequest request = new GeocodingRequest("4 Cassia Ct, Alice Springs, Northern Territory, 0870, Australia");
             GeocodingResponse response = request.GetResponse();
-            Assert.AreEqual(GeoStatus.Ok, response.Status);
+            Assert.AreEqual(ResponseStatus.Ok, response.Status);
         }
     }
 }

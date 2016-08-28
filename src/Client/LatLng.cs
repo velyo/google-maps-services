@@ -4,29 +4,29 @@ using System.Globalization;
 namespace Velyo.Google.Services
 {
     [Serializable]
-    public class GeoLocation : IEquatable<GeoLocation>
+    public class LatLng : IEquatable<LatLng>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeoLocation"/> class.
+        /// Initializes a new instance of the <see cref="LatLng"/> class.
         /// </summary>
         /// <param name="latitude">The latitude.</param>
         /// <param name="longitude">The longitude.</param>
-        public GeoLocation(double latitude, double longitude)
+        public LatLng(double latitude, double longitude)
         {
             Latitude = latitude;
             Longitude = longitude;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeoLocation"/> class.
+        /// Initializes a new instance of the <see cref="LatLng"/> class.
         /// </summary>
         /// <param name="source">The source.</param>
-        public GeoLocation(GeoLocation source) : this(source.Latitude, source.Longitude) { }
+        public LatLng(LatLng source) : this(source.Latitude, source.Longitude) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GeoLocation"/> class.
+        /// Initializes a new instance of the <see cref="LatLng"/> class.
         /// </summary>
-        public GeoLocation() : this(0, 0) { }
+        public LatLng() : this(0, 0) { }
 
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Velyo.Google.Services
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns>The result of the operator.</returns>
-        public static bool operator ==(GeoLocation x, GeoLocation y)
+        public static bool operator ==(LatLng x, LatLng y)
         {
             return object.ReferenceEquals(x, null)
                 ? object.ReferenceEquals(y, null) : x.Equals(y);
@@ -60,7 +60,7 @@ namespace Velyo.Google.Services
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns>The result of the operator.</returns>
-        public static bool operator !=(GeoLocation x, GeoLocation y)
+        public static bool operator !=(LatLng x, LatLng y)
         {
             return !(x == y);
         }
@@ -70,7 +70,7 @@ namespace Velyo.Google.Services
         /// </summary>
         /// <param name="point">The point.</param>
         /// <returns></returns>
-        public static GeoLocation Parse(string point)
+        public static LatLng Parse(string point)
         {
 
             if (point == null)
@@ -87,7 +87,7 @@ namespace Velyo.Google.Services
                     double lat = Convert.ToDouble(pair[0], format);
                     double lng = Convert.ToDouble(pair[1], format);
 
-                    return new GeoLocation(lat, lng);
+                    return new LatLng(lat, lng);
                 }
 
             }
@@ -104,7 +104,7 @@ namespace Velyo.Google.Services
         /// </returns>
         public override bool Equals(object obj)
         {
-            return (obj is GeoLocation) ? this.Equals(obj as GeoLocation) : false;
+            return (obj is LatLng) ? this.Equals(obj as LatLng) : false;
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Velyo.Google.Services
         /// </summary>
         /// <param name="other">The other.</param>
         /// <returns></returns>
-        public bool Equals(GeoLocation other)
+        public bool Equals(LatLng other)
         {
             return !object.ReferenceEquals(other, null)
                 ? ((this.Latitude == other.Latitude) && (this.Longitude == other.Longitude))

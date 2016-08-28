@@ -1,6 +1,6 @@
 ﻿namespace Velyo.Google.Services
 {
-    public enum GeoLocationType {
+    public enum LocationType {
         /// <summary>
         /// indicates that the returned result is a precise geocode for which we have location information accurate down to street address precision.
         /// </summary>

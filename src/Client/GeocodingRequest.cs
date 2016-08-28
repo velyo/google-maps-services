@@ -34,7 +34,7 @@ namespace Velyo.Google.Services
         /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
         /// </summary>
         /// <param name="location">The location.</param>
-        public GeocodingRequest(GeoLocation location)
+        public GeocodingRequest(LatLng location)
         {
             Location = location;
         }
@@ -46,7 +46,7 @@ namespace Velyo.Google.Services
         /// <param name="longitude">The longitude.</param>
         public GeocodingRequest(double latitude, double longitude)
         {
-            Location = new GeoLocation(latitude, longitude);
+            Location = new LatLng(latitude, longitude);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Velyo.Google.Services
         /// The latitude/longitude value for which you wish to obtain the closest, human-readable address.
         /// </summary>
         /// <value>The location.</value>
-        public GeoLocation Location { get; set; }
+        public LatLng Location { get; set; }
 
         /// <summary>
         /// The region code, specified as a ccTLD ("top-level domain") two-character value.
@@ -90,7 +90,7 @@ namespace Velyo.Google.Services
 
 
         /// <summary>
-        /// Creates the specified address.
+        /// Creates <code>GeocodingRequest</code> for the specified address.
         /// </summary>
         /// <param name="address">The address.</param>
         /// <returns></returns>
@@ -100,22 +100,22 @@ namespace Velyo.Google.Services
         }
 
         /// <summary>
-        /// Creates the reverse.
+        /// Creates reverse <code>GeocodingRequest</code> for the specified latitude and longitude.
         /// </summary>
         /// <param name="latitude">The latitude.</param>
         /// <param name="longitude">The longitude.</param>
         /// <returns></returns>
-        static public GeocodingRequest CreateReverse(double latitude, double longitude)
+        static public GeocodingRequest Create(double latitude, double longitude)
         {
             return new GeocodingRequest(latitude, longitude);
         }
 
         /// <summary>
-        /// Creates the reverse.
+        /// Creates reverse <code>GeocodingRequest</code> for the specified latitude and longitude.
         /// </summary>
         /// <param name="location">The location.</param>
         /// <returns></returns>
-        static public GeocodingRequest CreateReverse(GeoLocation location)
+        static public GeocodingRequest Create(LatLng location)
         {
             return new GeocodingRequest(location);
         }
@@ -241,10 +241,6 @@ namespace Velyo.Google.Services
             {
                 var serializer = new JavaScriptSerializer();
                 jsonData = serializer.Deserialize<JsonGeoData>(responseData);
-            }
-            else
-            {
-                jsonData = new JsonGeoData { status = GeoStatus.ZeroResults };
             }
 
             return new GeocodingResponse(jsonData);

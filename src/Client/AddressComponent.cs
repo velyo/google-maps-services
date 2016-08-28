@@ -1,6 +1,6 @@
 ﻿namespace Velyo.Google.Services
 {
-    public class GeoAddress
+    public class AddressComponent
     {
         /// <summary>
         /// Gets or sets the long name.

@@ -1,6 +1,6 @@
 ﻿namespace Velyo.Google.Services
 {
-    public enum GeoStatus
+    public enum ResponseStatus
     {
         Ok,
         ZeroResults,
