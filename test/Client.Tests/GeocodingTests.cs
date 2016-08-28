@@ -31,6 +31,7 @@ namespace Velyo.Google.Services.Tests
             Assert.IsNotNull(response);
         }
 
+#if NET35 || NET40
         [TestMethod]
         public void GetResponse_ResultAsync()
         {
@@ -44,6 +45,7 @@ namespace Velyo.Google.Services.Tests
 
             Assert.AreEqual(expected, actual);
         }
+#endif
 
         [TestMethod]
         public void GetResponse_With_Address()

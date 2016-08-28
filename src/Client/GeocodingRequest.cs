@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Script.Serialization;
 
@@ -134,6 +135,8 @@ namespace Velyo.Google.Services
             }
         }
 
+#if NET35 || NET40
+
         /// <summary>
         /// Executes <code>GeocodingRequest</code> against Google Maps Geocoding API web service 
         /// and returns the result as <seealso cref="GeocodingResponse"/>, in asynchronous fashion.
@@ -177,6 +180,8 @@ namespace Velyo.Google.Services
                 _asyncTrigger.Set();
             }
         }
+#else
+#endif
 
         private string BuildRequestUrl()
         {
