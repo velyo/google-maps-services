@@ -2,21 +2,21 @@
 # build in Release mode 
 -
   branches:
-	only:
-	  - master
+    only:
+      - master
   version: 2.0.{build}
   configuration: Release
   platform: Any CPU
   build:
-	verbosity: minimal
+    verbosity: minimal
   test: off
 
 # configuration for "net35" branch
 # build in Release-Net35 mode 
 -
   branches:
-	only:
-	  - net35
+    only:
+      - net35
   version: 2.0.{build}
   configuration: Release-Net35
   platform: Any CPU
@@ -29,10 +29,10 @@
 -
   branches:
     only:
-	  - net40
+      - net40
   version: 2.0.{build}
   configuration: Release-Net40
   platform: Any CPU
   build:
-	verbosity: minimal
+    verbosity: minimal
   test: off
