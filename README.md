@@ -6,4 +6,26 @@
 [![Stories in Ready](https://badge.waffle.io/velyo/google-maps-services.svg?label=ready&title=Ready)](http://waffle.io/velyo/google-maps-services) 
 [![Gitter](https://badges.gitter.im/velyo/google-maps-services.svg)](https://gitter.im/velyo/google-maps-services?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-.NET client library for Google Maps API Web Services
+.NET Client Library for Google Maps APIs Services
+
+## Features
+* Support standard and reverse geocoding;
+
+### Samples
+* Geocoding Request
+```csharp
+GeoRequest request = new GeoRequest("plovdiv bulgaria");
+GeoResponse response = request.GetResponse();
+GeoLocation location = response.Results[0].Geometry.Location;
+double latitude = location.Latitude;
+double longitude = location.Longitude;
+// TODO use latitude/longitude values}}
+```
+
+* Reverse Geocoding Request
+```csharp
+GeoRequest request = new GeoRequest(42.1438409, 24.7495615);
+GeoResponse response = request.GetResponse();
+string address = response.Results[0].FormattedAddress;
+ TODO use address values
+```
