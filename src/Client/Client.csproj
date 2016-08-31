@@ -95,6 +95,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\common\VersionInfo035.cs" Condition="'$(Configuration)|$(Platform)' == 'Debug-Net35|AnyCPU'">
+      <Link>Properties\VersionInfo035.cs</Link>
+    </Compile>
+    <Compile Include="..\..\common\VersionInfo035.cs" Condition="'$(Configuration)|$(Platform)' == 'Release-Net35|AnyCPU'">
+      <Link>Properties\VersionInfo035.cs</Link>
+    </Compile>
+    <Compile Include="..\..\common\VersionInfo040.cs" Condition="'$(Configuration)|$(Platform)' == 'Debug-Net40|AnyCPU'">
+      <Link>Properties\VersionInfo040.cs</Link>
+    </Compile>
+    <Compile Include="..\..\common\VersionInfo040.cs" Condition="'$(Configuration)|$(Platform)' == 'Release-Net40|AnyCPU'">
+      <Link>Properties\VersionInfo040.cs</Link>
+    </Compile>
+    <Compile Include="..\..\common\VersionInfo045.cs" Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+      <Link>Properties\VersionInfo045.cs</Link>
+    </Compile>
+    <Compile Include="..\..\common\VersionInfo045.cs" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+      <Link>Properties\VersionInfo045.cs</Link>
+    </Compile>
+    <None Include="..\..\common\VersionInfo100.cs">
+      <Link>Properties\VersionInfo100.cs</Link>
+    </None>
     <Compile Include="AddressComponent.cs" />
     <Compile Include="AddressType.cs" />
     <Compile Include="Bounds.cs" />
@@ -107,6 +128,9 @@
     <Compile Include="LatLng.cs" />
     <Compile Include="ResponseStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Properties\Client.nuspec">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
