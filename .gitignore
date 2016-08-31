@@ -253,3 +253,11 @@ paket-files/
 
 # OpenCover
 OpenCover/
+
+# MS Tests
+TestResults/
+
+# Build Output
+.build/
+.deploy/
+.test/

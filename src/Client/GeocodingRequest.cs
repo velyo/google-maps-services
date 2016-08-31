@@ -15,6 +15,7 @@ namespace Velyo.Google.Services
     public class GeocodingRequest
     {
         static readonly string RequestUrl = "http://maps.google.com/maps/api/geocode/json?";
+        static readonly int RetryTimes = 10;
 
 #if NET35 || NET40
         private WebResponse _asyncResponse;
@@ -141,7 +142,7 @@ namespace Velyo.Google.Services
             string url = BuildRequestUrl();
             GeocodingJsonData jsonData = null;
 
-            for (int n = 1; n <= 3; n++)
+            for (int n = 1; n <= RetryTimes; n++)
             {
                 var request = WebRequest.Create(url);
 
@@ -178,7 +179,7 @@ namespace Velyo.Google.Services
             string url = BuildRequestUrl();
             GeocodingJsonData jsonData = null;
 
-            for (int n = 1; n <= 3; n++)
+            for (int n = 1; n <= RetryTimes; n++)
             {
                 var request = WebRequest.Create(url);
 
@@ -236,7 +237,7 @@ namespace Velyo.Google.Services
             string url = BuildRequestUrl();
             GeocodingJsonData jsonData = null;
 
-            for (int n = 1; n <= 3; n++)
+            for (int n = 1; n <= RetryTimes; n++)
             {
                 var request = WebRequest.Create(url);
 
