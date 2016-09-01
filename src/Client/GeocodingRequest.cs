@@ -17,47 +17,78 @@ namespace Velyo.Google.Services
         static readonly string RequestUrl = "http://maps.google.com/maps/api/geocode/json?";
         static readonly int RetryTimes = 10;
 
+        private GeoApiContext _context;
 #if NET35 || NET40
         private WebResponse _asyncResponse;
         private ManualResetEvent _asyncTrigger;
 #endif
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
         /// </summary>
-        /// <param name="address">The address.</param>
-        public GeocodingRequest(string address) : this()
+        /// <param name="context"></param>
+        /// <param name="address"></param>
+        public GeocodingRequest(GeoApiContext context, string address) 
         {
+            _context = context;
             Address = address;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
         /// </summary>
-        /// <param name="location">The location.</param>
-        public GeocodingRequest(LatLng location) : this()
+        /// <param name="address">The address.</param>
+        public GeocodingRequest(string address) : this(null, address) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="location"></param>
+        public GeocodingRequest(GeoApiContext context, LatLng location) 
         {
+            _context = context;
             Location = location;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
         /// </summary>
-        /// <param name="latitude">The latitude.</param>
-        /// <param name="longitude">The longitude.</param>
-        public GeocodingRequest(double latitude, double longitude) : this()
+        /// <param name="location">The location.</param>
+        public GeocodingRequest(LatLng location) : this(null, location) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
+        public GeocodingRequest(GeoApiContext context, double latitude, double longitude) 
         {
+            _context = context;
             Location = new LatLng(latitude, longitude);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
         /// </summary>
-        public GeocodingRequest()
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
+        public GeocodingRequest(double latitude, double longitude) : this(null, latitude, longitude) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
+        /// </summary>
+        /// <param name="context"></param>
+        public GeocodingRequest(GeoApiContext context)
         {
-            AutoRetry = true;
+            _context = context;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
+        /// </summary>
+        public GeocodingRequest() { }
 
 
         /// <summary>
@@ -93,10 +124,10 @@ namespace Velyo.Google.Services
         /// <value>The region.</value>
         public string Region { get; set; }
 
-        /// <summary>
-        /// Retry request on query limit reached. It's on by default.
-        /// </summary>
-        public bool AutoRetry { get; set; }
+        ///// <summary>
+        ///// Retry request on query limit reached. It's on by default.
+        ///// </summary>
+        //public bool AutoRetry { get; set; }
 
 
         /// <summary>
@@ -141,6 +172,7 @@ namespace Velyo.Google.Services
 
             string url = BuildRequestUrl();
             GeocodingJsonData jsonData = null;
+            bool autoRetry = _context?.AutoRetry ?? false;
 
             for (int n = 1; n <= RetryTimes; n++)
             {
@@ -151,7 +183,7 @@ namespace Velyo.Google.Services
                     jsonData = GetData(response);
                 }
 
-                if (AutoRetry && (jsonData.status == ResponseStatus.OVER_QUERY_LIMIT))
+                if (autoRetry && (jsonData.status == ResponseStatus.OVER_QUERY_LIMIT))
                 {
 #if DEBUG
                     Debug.WriteLine("[GetResponse]: Auto retry #" + n);
@@ -178,6 +210,7 @@ namespace Velyo.Google.Services
 
             string url = BuildRequestUrl();
             GeocodingJsonData jsonData = null;
+            bool autoRetry = _context?.AutoRetry ?? false;
 
             for (int n = 1; n <= RetryTimes; n++)
             {
@@ -199,7 +232,7 @@ namespace Velyo.Google.Services
                     jsonData = GetData(_asyncResponse);
                 }
 
-                if (AutoRetry && (jsonData.status == ResponseStatus.OVER_QUERY_LIMIT))
+                if (autoRetry && (jsonData.status == ResponseStatus.OVER_QUERY_LIMIT))
                 {
 #if DEBUG
                     Debug.WriteLine("[GetResponse]: Auto retry #" + n);
@@ -236,6 +269,7 @@ namespace Velyo.Google.Services
 
             string url = BuildRequestUrl();
             GeocodingJsonData jsonData = null;
+            bool autoRetry = _context?.AutoRetry ?? false;
 
             for (int n = 1; n <= RetryTimes; n++)
             {
@@ -246,7 +280,7 @@ namespace Velyo.Google.Services
                     jsonData = GetData(response);
                 }
 
-                if (AutoRetry && (jsonData.status == ResponseStatus.OVER_QUERY_LIMIT))
+                if (autoRetry && (jsonData.status == ResponseStatus.OVER_QUERY_LIMIT))
                 {
 #if DEBUG
                     Debug.WriteLine("[GetResponse]: Auto retry #" + n);
