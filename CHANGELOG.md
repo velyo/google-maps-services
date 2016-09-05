@@ -16,7 +16,7 @@ download in the
 
 These are the changes to each version that has been released.
 
-## v2.1
+## v2.0
 
 **2016-09-15**
 

@@ -1,151 +1,162 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1F0D1656-CF0D-4704-91D4-90A39E91B908}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Velyo.Google.Services</RootNamespace>
-    <AssemblyName>Velyo.Google.Client</AssemblyName>
-    <FileAlignment>512</FileAlignment>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-Net35|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug-Net35\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET35</DefineConstants>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-Net40|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug-Net40\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NET40</DefineConstants>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NET45</DefineConstants>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Net35|AnyCPU'">
-    <OutputPath>bin\Release-Net35\</OutputPath>
-    <DefineConstants>TRACE;NET35</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Net40|AnyCPU'">
-    <OutputPath>bin\Release-Net40\</OutputPath>
-    <DefineConstants>TRACE;NET40</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NET45</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\common\VersionInfo035.cs" Condition="'$(Configuration)|$(Platform)' == 'Debug-Net35|AnyCPU'">
-      <Link>Properties\VersionInfo035.cs</Link>
-    </Compile>
-    <Compile Include="..\..\common\VersionInfo035.cs" Condition="'$(Configuration)|$(Platform)' == 'Release-Net35|AnyCPU'">
-      <Link>Properties\VersionInfo035.cs</Link>
-    </Compile>
-    <Compile Include="..\..\common\VersionInfo040.cs" Condition="'$(Configuration)|$(Platform)' == 'Debug-Net40|AnyCPU'">
-      <Link>Properties\VersionInfo040.cs</Link>
-    </Compile>
-    <Compile Include="..\..\common\VersionInfo040.cs" Condition="'$(Configuration)|$(Platform)' == 'Release-Net40|AnyCPU'">
-      <Link>Properties\VersionInfo040.cs</Link>
-    </Compile>
-    <Compile Include="..\..\common\VersionInfo045.cs" Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-      <Link>Properties\VersionInfo045.cs</Link>
-    </Compile>
-    <Compile Include="..\..\common\VersionInfo045.cs" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-      <Link>Properties\VersionInfo045.cs</Link>
-    </Compile>
-    <None Include="..\..\common\VersionInfo100.cs">
-      <Link>Properties\VersionInfo100.cs</Link>
-    </None>
-    <Compile Include="AddressComponent.cs" />
-    <Compile Include="AddressType.cs" />
-    <Compile Include="Bounds.cs" />
-    <Compile Include="GeoApiContext.cs" />
-    <Compile Include="GeocodingApi.cs" />
-    <Compile Include="GeocodingRequest.cs" />
-    <Compile Include="GeocodingResponse.cs" />
-    <Compile Include="GeocodingJsonData.cs" />
-    <Compile Include="LocationType.cs" />
-    <Compile Include="Geometry.cs" />
-    <Compile Include="GeocodingResult.cs" />
-    <Compile Include="LatLng.cs" />
-    <Compile Include="ResponseStatus.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="Properties\Client.nuspec">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" />
-    </VisualStudio>
-  </ProjectExtensions>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProductVersion>8.0.30703</ProductVersion>
+        <SchemaVersion>2.0</SchemaVersion>
+        <ProjectGuid>{1F0D1656-CF0D-4704-91D4-90A39E91B908}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>Velyo.Google.Services</RootNamespace>
+        <AssemblyName>Velyo.Google.Client</AssemblyName>
+        <FileAlignment>512</FileAlignment>
+        <SccProjectName>
+        </SccProjectName>
+        <SccLocalPath>
+        </SccLocalPath>
+        <SccAuxPath>
+        </SccAuxPath>
+        <SccProvider>
+        </SccProvider>
+        <TargetFrameworkProfile />
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-Net35|AnyCPU'">
+        <DebugSymbols>true</DebugSymbols>
+        <OutputPath>bin\Debug-Net35\</OutputPath>
+        <DefineConstants>TRACE;DEBUG;NET35</DefineConstants>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <ErrorReport>prompt</ErrorReport>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-Net40|AnyCPU'">
+        <DebugSymbols>true</DebugSymbols>
+        <OutputPath>bin\Debug-Net40\</OutputPath>
+        <DefineConstants>DEBUG;TRACE;NET40</DefineConstants>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <ErrorReport>prompt</ErrorReport>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <DebugSymbols>true</DebugSymbols>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE;NET45</DefineConstants>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <ErrorReport>prompt</ErrorReport>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Net35|AnyCPU'">
+        <OutputPath>bin\Release-Net35\</OutputPath>
+        <DefineConstants>TRACE;NET35</DefineConstants>
+        <Optimize>true</Optimize>
+        <DebugType>pdbonly</DebugType>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <Prefer32Bit>false</Prefer32Bit>
+        <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Net40|AnyCPU'">
+        <OutputPath>bin\Release-Net40\</OutputPath>
+        <DefineConstants>TRACE;NET40</DefineConstants>
+        <Optimize>true</Optimize>
+        <DebugType>pdbonly</DebugType>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <Prefer32Bit>false</Prefer32Bit>
+        <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE;NET45</DefineConstants>
+        <Optimize>true</Optimize>
+        <DebugType>pdbonly</DebugType>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <Prefer32Bit>false</Prefer32Bit>
+        <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="System" />
+        <Reference Include="System.Configuration" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Web" />
+        <Reference Include="System.Web.Extensions" />
+        <Reference Include="System.Xml.Linq" />
+        <Reference Include="System.Data.DataSetExtensions" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="..\..\common\VersionInfo035.cs" Condition="'$(Configuration)|$(Platform)' == 'Debug-Net35|AnyCPU'">
+            <Link>Properties\VersionInfo035.cs</Link>
+        </Compile>
+        <Compile Include="..\..\common\VersionInfo035.cs" Condition="'$(Configuration)|$(Platform)' == 'Release-Net35|AnyCPU'">
+            <Link>Properties\VersionInfo035.cs</Link>
+        </Compile>
+        <Compile Include="..\..\common\VersionInfo040.cs" Condition="'$(Configuration)|$(Platform)' == 'Debug-Net40|AnyCPU'">
+            <Link>Properties\VersionInfo040.cs</Link>
+        </Compile>
+        <Compile Include="..\..\common\VersionInfo040.cs" Condition="'$(Configuration)|$(Platform)' == 'Release-Net40|AnyCPU'">
+            <Link>Properties\VersionInfo040.cs</Link>
+        </Compile>
+        <Compile Include="..\..\common\VersionInfo045.cs" Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+            <Link>Properties\VersionInfo045.cs</Link>
+        </Compile>
+        <Compile Include="..\..\common\VersionInfo045.cs" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+            <Link>Properties\VersionInfo045.cs</Link>
+        </Compile>
+        <None Include="..\..\common\VersionInfo100.cs">
+            <Link>Properties\VersionInfo100.cs</Link>
+        </None>
+        <Compile Include="AddressComponent.cs" />
+        <Compile Include="AddressType.cs" />
+        <Compile Include="Bounds.cs" />
+        <Compile Include="GeoApiContext.cs" />
+        <Compile Include="GeocodingApi.cs" />
+        <Compile Include="GeocodingRequest.cs" />
+        <Compile Include="GeocodingRequest35.cs" Condition="'$(Configuration)|$(Platform)' == 'Debug-Net35|AnyCPU'">
+            <DependentUpon>GeocodingRequest.cs</DependentUpon>
+        </Compile>
+        <Compile Include="GeocodingRequest35.cs" Condition="'$(Configuration)|$(Platform)' == 'Release-Net35|AnyCPU'">
+            <DependentUpon>GeocodingRequest.cs</DependentUpon>
+        </Compile>
+        <Compile Include="GeocodingRequest35.cs" Condition="'$(Configuration)|$(Platform)' == 'Debug-Net40|AnyCPU'">
+            <DependentUpon>GeocodingRequest.cs</DependentUpon>
+        </Compile>
+        <Compile Include="GeocodingRequest35.cs" Condition="'$(Configuration)|$(Platform)' == 'Release-Net40|AnyCPU'">
+            <DependentUpon>GeocodingRequest.cs</DependentUpon>
+        </Compile>
+        <Compile Include="GeocodingRequest45.cs" Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+            <DependentUpon>GeocodingRequest.cs</DependentUpon>
+        </Compile>
+        <Compile Include="GeocodingRequest45.cs" Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+            <DependentUpon>GeocodingRequest.cs</DependentUpon>
+        </Compile>
+        <Compile Include="GeocodingResponse.cs" />
+        <Compile Include="GeocodingJsonData.cs" />
+        <Compile Include="LocationType.cs" />
+        <Compile Include="Geometry.cs" />
+        <Compile Include="GeocodingResult.cs" />
+        <Compile Include="LatLng.cs" />
+        <Compile Include="ResponseStatus.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <None Include="Properties\Client.nuspec">
+            <SubType>Designer</SubType>
+        </None>
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <ProjectExtensions>
+        <VisualStudio>
+            <UserProperties BuildVersion_UseGlobalSettings="True" />
+        </VisualStudio>
+    </ProjectExtensions>
 </Project>

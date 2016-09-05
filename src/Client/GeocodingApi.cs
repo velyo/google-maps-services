@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 #if NET45
 using System.Threading.Tasks;
 #endif
@@ -52,6 +53,16 @@ namespace Velyo.Google.Services
             }
         }
 
+        static public IEnumerable<GeocodingResponse> Geocode(GeoApiContext context, params string[] addresses)
+        {
+            return Geocode(context, addresses.ToList());
+        }
+
+        static public IEnumerable<GeocodingResponse> Geocode(GeoApiContext context, params LatLng[] locations)
+        {
+            return Geocode(context, locations.ToList());
+        }
+
 #if NET45 // async/await
 
         static public async Task<GeocodingResponse> GeocodeAsync(GeoApiContext context, string address)
@@ -66,7 +77,7 @@ namespace Velyo.Google.Services
             return await request.GetResponseAsync();
         }
 
-         static public async Task<IEnumerable<GeocodingResponse>> GeocodeAsync(GeoApiContext context, IEnumerable<string> addresses)
+        static public async Task<IEnumerable<GeocodingResponse>> GeocodeAsync(GeoApiContext context, IEnumerable<string> addresses)
         {
             var result = new List<GeocodingResponse>();
             foreach (var address in addresses)
@@ -86,6 +97,16 @@ namespace Velyo.Google.Services
                 result.Add(await request.GetResponseAsync());
             }
             return result;
+        }
+
+        static public async Task<IEnumerable<GeocodingResponse>> GeocodeAsync(GeoApiContext context, params string[] addresses)
+        {
+            return await GeocodeAsync(context, addresses.ToList());
+        }
+
+        static public async Task<IEnumerable<GeocodingResponse>> GeocodeAsync(GeoApiContext context, params LatLng[] locations)
+        {
+            return await GeocodeAsync(context, locations.ToList());
         }
 #endif
 
@@ -119,6 +140,16 @@ namespace Velyo.Google.Services
                 var request = CreateRequest(context, location);
                 yield return request.GetResponseAsync();
             }
+        }
+
+        static public IEnumerable<GeocodingResponse> GeocodeAsync(GeoApiContext context, params string[] addresses)
+        {
+            return GeocodeAsync(context, addresses.ToList());
+        }
+
+        static public IEnumerable<GeocodingResponse> GeocodeAsync(GeoApiContext context, params LatLng[] locations)
+        {
+            return GeocodeAsync(context, locations.ToList());
         }
 #endif
     }

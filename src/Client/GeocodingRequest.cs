@@ -1,27 +1,19 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
-#if NET45
-using System.Threading.Tasks;
-#endif
 using System.Web;
 using System.Web.Script.Serialization;
 
 namespace Velyo.Google.Services
 {
-    public class GeocodingRequest
+    public partial class GeocodingRequest
     {
         static readonly string RequestUrl = "http://maps.google.com/maps/api/geocode/json?";
-        static readonly int RetryTimes = 10;
 
         private GeoApiContext _context;
-#if NET35 || NET40
-        private WebResponse _asyncResponse;
-        private ManualResetEvent _asyncTrigger;
-#endif
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
@@ -124,11 +116,6 @@ namespace Velyo.Google.Services
         /// <value>The region.</value>
         public string Region { get; set; }
 
-        ///// <summary>
-        ///// Retry request on query limit reached. It's on by default.
-        ///// </summary>
-        //public bool AutoRetry { get; set; }
-
 
         /// <summary>
         /// Creates <code>GeocodingRequest</code> for the specified address.
@@ -173,8 +160,10 @@ namespace Velyo.Google.Services
             string url = BuildRequestUrl();
             GeocodingJsonData jsonData = null;
             bool autoRetry = _context?.AutoRetry ?? false;
+            int retryTimeout = _context?.RetryTimeout ?? 0;
+            int retryTimes = _context?.RetryTimes ?? 1;
 
-            for (int n = 1; n <= RetryTimes; n++)
+            for (int n = 1; n <= retryTimes; n++)
             {
                 var request = WebRequest.Create(url);
 
@@ -185,10 +174,7 @@ namespace Velyo.Google.Services
 
                 if (autoRetry && (jsonData.status == ResponseStatus.OVER_QUERY_LIMIT))
                 {
-#if DEBUG
-                    Debug.WriteLine("[GetResponse]: Auto retry #" + n);
-#endif
-                    Thread.Sleep(n * 100);
+                    Thread.Sleep(n * retryTimeout);
                     continue;
                 }
                 break;
@@ -196,104 +182,6 @@ namespace Velyo.Google.Services
 
             return new GeocodingResponse(jsonData);
         }
-
-#if NET35 || NET40
-
-        /// <summary>
-        /// Executes <code>GeocodingRequest</code> against Google Maps Geocoding API web service 
-        /// and returns the result as <seealso cref="GeocodingResponse"/>, in asynchronous fashion.
-        /// </summary>
-        /// <returns></returns>
-        public GeocodingResponse GetResponseAsync()
-        {
-            Validate();
-
-            string url = BuildRequestUrl();
-            GeocodingJsonData jsonData = null;
-            bool autoRetry = _context?.AutoRetry ?? false;
-
-            for (int n = 1; n <= RetryTimes; n++)
-            {
-                var request = WebRequest.Create(url);
-
-                using (_asyncTrigger = new ManualResetEvent(false))
-                {
-#if DEBUG
-                    Debug.WriteLine("[GetResponseAsync]: Thread #" + Thread.CurrentThread.ManagedThreadId);
-#endif
-                    request.BeginGetResponse(new AsyncCallback(FinishGetResponseAsync), request);
-                    // Wait until the ManualResetEvent is set so that the application does not exit until after the callback is called.
-                    // TODO add and handle proper timeout
-                    _asyncTrigger.WaitOne();
-                }
-
-                using (_asyncResponse)
-                {
-                    jsonData = GetData(_asyncResponse);
-                }
-
-                if (autoRetry && (jsonData.status == ResponseStatus.OVER_QUERY_LIMIT))
-                {
-#if DEBUG
-                    Debug.WriteLine("[GetResponse]: Auto retry #" + n);
-#endif
-                    Thread.Sleep(n * 100);
-                    continue;
-                }
-                break;
-            }
-
-            return new GeocodingResponse(jsonData);
-        }
-
-        private void FinishGetResponseAsync(IAsyncResult result)
-        {
-#if DEBUG
-            Debug.WriteLine("[FinishGetResponseAsync]: Thread #" + Thread.CurrentThread.ManagedThreadId);
-#endif
-            var request = result.AsyncState as WebRequest;
-
-            if (request != null)
-            {
-                _asyncResponse = request.EndGetResponse(result);
-                // Set the ManualResetEvent so the main thread can exit.
-                _asyncTrigger.Set();
-            }
-        }
-#endif
-
-#if NET45
-        public async Task<GeocodingResponse> GetResponseAsync()
-        {
-            Validate();
-
-            string url = BuildRequestUrl();
-            GeocodingJsonData jsonData = null;
-            bool autoRetry = _context?.AutoRetry ?? false;
-
-            for (int n = 1; n <= RetryTimes; n++)
-            {
-                var request = WebRequest.Create(url);
-
-                using (var response = await request.GetResponseAsync())
-                {
-                    jsonData = GetData(response);
-                }
-
-                if (autoRetry && (jsonData.status == ResponseStatus.OVER_QUERY_LIMIT))
-                {
-#if DEBUG
-                    Debug.WriteLine("[GetResponse]: Auto retry #" + n);
-#endif
-                    await Task.Delay(n * 100);
-                    continue;
-                }
-                break;
-            }
-
-            return new GeocodingResponse(jsonData);
-        }
-#endif
 
         private string BuildRequestUrl()
         {

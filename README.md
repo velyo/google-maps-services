@@ -29,15 +29,9 @@ To get an API key:
  1. Visit https://developers.google.com/console and log in with
     a Google Account.
  1. Select one of your existing projects, or create a new project.
- 1. Enable the API(s) you want to use. The Java Client for Google Maps Services
+ 1. Enable the API(s) you want to use. The .NET Client for Google Maps Services
     accesses the following APIs:
-    * Directions API
-    * Distance Matrix API
-    * Elevation API
     * Geocoding API
-    * Places API
-    * Roads API
-    * Time Zone API
  1. Create a new **Server key**.
  1. If you'd like to restrict requests to a specific IP address, do so now.
  
