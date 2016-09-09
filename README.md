@@ -2,9 +2,10 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/ihwbnutdfeyb34pb?svg=true)](https://ci.appveyor.com/project/velyo/google-maps-services) 
 [![Build status](https://ci.appveyor.com/api/projects/status/ihwbnutdfeyb34pb/branch/net35?svg=true&pendingText=net35&failingText=net35&passingText=net35)](https://ci.appveyor.com/project/velyo/google-maps-services/branch/net35) 
-[![Build status](https://ci.appveyor.com/api/projects/status/ihwbnutdfeyb34pb/branch/net40?svg=true&pendingText=net40&failingText=net40&passingText=net40)](https://ci.appveyor.com/project/velyo/google-maps-services/branch/net40) 
+[![Build status](https://ci.appveyor.com/api/projects/status/ihwbnutdfeyb34pb/branch/net40?svg=true&pendingText=net40&failingText=net40&passingText=net40)](https://ci.appveyor.com/project/velyo/google-maps-services/branch/net40)  
+[![NuGet](https://img.shields.io/nuget/v/Google.Maps.Client.svg?maxAge=2592000)](https://www.nuget.org/packages/Google.Maps.Client/)  
 [![Stories in Ready](https://badge.waffle.io/velyo/google-maps-services.svg?label=ready&title=Ready)](http://waffle.io/velyo/google-maps-services) 
-[![Gitter](https://badges.gitter.im/velyo/google-maps-services.svg)](https://gitter.im/velyo/google-maps-services?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Gitter](https://badges.gitter.im/velyo/google-maps-services.svg)](https://gitter.im/velyo/google-maps-services?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) 
 
 .NET Client for Google Maps APIs Services is a .NET Client library for the following Google Maps APIs:
 
@@ -42,6 +43,12 @@ For even more information, see the guide to [API keys][apikey].
 **Important:** This key should be kept secret on your server.
 
 ### Installation
+
+To install Google Maps API Services Client Library, run the following command in the Package Manager Console
+
+```
+Install-Package Google.Maps.Client
+```
 
 ## Features
  
