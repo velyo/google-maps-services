@@ -27,19 +27,13 @@
       api_key:
         secure: pi98jdOOgUknVbO9zAh2LJiCCsc48HRZ3sGMvCX7DbkeBglS/T1gPcpGee9oOvqO
       artifact: /.*\.nupkg/
-      on:
-        appveyor_repo_tag: true       # deploy on tag push only
+      #on:
+        #appveyor_repo_tag: true       # deploy on tag push only
     - provider: NuGet
       server: https://ci.appveyor.com/nuget/velyo
       api_key:
         secure: qrQMiOtUhrEB5U/xeSttpzWypIKBU72NM9L5+wyRnS4=
       artifact: /.*\.nupkg/
-    - provider: GitHub
-      artifact: /.*\.nupkg/           # upload all NuGet packages to release assets
-      draft: false
-      prerelease: false
-      on:
-        appveyor_repo_tag: true       # deploy on tag push only
 
 # configuration for "net35" branch
 # build in Release-Net35 mode 
