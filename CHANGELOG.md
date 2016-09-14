@@ -1,5 +1,6 @@
 # Roadmap
 
+Google Maps APIs
 - [ ] Directions API
 - [ ] Distance Matrix API
 - [ ] Elevation API
@@ -8,9 +9,14 @@
 - [ ] Roads API
 - [ ] Time Zone API
 
+Featues
+- [ ] Portable class library build
+- [ ] .NET Core library build
+- [ ] SQLCLR functions for Google.Maps.Client usage inside MSSQL
+
 Features that have a checkmark are complete and available for
 download in the
-[CI build](http://vsixgallery.com/extension/ea5c68d6-cdae-4e79-bd46-2a39e95bb256/).
+[NuGet package](https://www.nuget.org/packages/Google.Maps.Client/).
 
 # Changelog
 

@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("Release")]
 #endif
 
-[assembly: AssemblyTitle("Google.Maps.Apis")]
+[assembly: AssemblyTitle("Google.Maps.Client")]
 [assembly: AssemblyCompany("Velyo Ivanov (http://velyo.net/)")]
 [assembly: AssemblyProduct("Google Maps API Services Client (https://github.com/velyo/google-maps-services)")]
 [assembly: AssemblyCopyright("Copyright © 2016 Velyo Ivanov")]
