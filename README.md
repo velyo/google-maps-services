@@ -90,3 +90,11 @@ GeoResponse response = request.GetResponseAsync();
 GeoRequest request = new GeoRequest("plovdiv bulgaria");
 GeoResponse response = await request.GetResponseAsync();
 ```
+
+## Contribute
+
+Check out the [contribution guidelines](https://github.com/velyo/google-maps-services/blob/master/CONTRIBUTING.md) if you want to contribute to this project.
+
+## License
+
+[MIT](https://github.com/velyo/google-maps-services/blob/master/LICENSE)
