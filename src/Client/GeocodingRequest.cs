@@ -122,7 +122,11 @@ namespace Velyo.Google.Services
 
             if (data.IsOverQueryLimit)
             {
-                data = _context.Retry(() => Process(url), d => !d.IsOverQueryLimit);
+                GeocodingResponseData retryData = _context.Retry(() => Process(url), d => !d.IsOverQueryLimit);
+                if(retryData != null)
+                {
+                    data = retryData;
+                }
             }
 
             return new GeocodingResponse().Parse(data);
@@ -138,7 +142,11 @@ namespace Velyo.Google.Services
 
             if (data.IsOverQueryLimit)
             {
-                data = await _context.RetryAsync(async () => await ProcessAsync(url), d => !d.IsOverQueryLimit);
+                GeocodingResponseData retryData = await _context.RetryAsync(async () => await ProcessAsync(url), d => !d.IsOverQueryLimit);
+                if (retryData != null)
+                {
+                    data = retryData;
+                }
             }
 
             return new GeocodingResponse().Parse(data);

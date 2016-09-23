@@ -99,20 +99,22 @@ namespace Velyo.Google.Services
         /// <returns></returns>
         public T Retry<T>(Func<T> process, Func<T, bool> predicate)
         {
+            T result = default(T);
+
             if (AutoRetry)
             {
                 lock (_syncLock)
                 {
                     for (int n = 0; n <= RetryTimes; n++)
                     {
-                        Thread.Sleep(RetryDelay);
-                        T result = process();
+                        Thread.Sleep((n + 1) * RetryDelay);
+                        result = process();
                         if (predicate(result)) return result;
                     }
                 }
             }
 
-            return default(T);
+            return result;
         }
 
 #if NET45
@@ -127,17 +129,19 @@ namespace Velyo.Google.Services
         {
             return _asyncLock.RunAsync(async () =>
             {
+                T result = default(T);
+
                 if (AutoRetry)
                 {
                     for (int n = 0; n <= RetryTimes; n++)
                     {
-                        await Task.Delay(RetryDelay);
-                        T result = await process();
+                        await Task.Delay((n + 1) * RetryDelay);
+                        result = await process();
                         if(predicate(result)) return result;
                     }
                 }
 
-                return default(T);
+                return result;
             });
         }
 #endif

@@ -19,7 +19,7 @@
     - msbuild GoogleMapsServices.sln /p:Configuration=Release-Net35
     - msbuild GoogleMapsServices.sln /p:Configuration=Release-Net40
     - nuget pack src/Client/Client.nuspec -Version %APPVEYOR_BUILD_VERSION%
-  test: off
+  test: on
   artifacts: 
     - path: '**\*.nupkg'
   deploy:
