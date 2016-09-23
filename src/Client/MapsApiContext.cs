@@ -17,13 +17,13 @@ namespace Velyo.Google.Services
         /// <summary>
         /// A default (test) singleton instance of context
         /// </summary>
-        public static readonly MapsApiContext Default = new MapsApiContext();
+        public static readonly MapsApiContext Default = Load();
 
-        internal static readonly string DefaultGeocodeApiUrl = "http://maps.google.com/maps/api/geocode/json?";
+        internal const string DefaultGeocodeApiUrl = "http://maps.google.com/maps/api/geocode/json?";
 
-        private const bool DefaultAutoRetry = true;
-        private const int DefaultRetryDelay = 100;// in milliseconds
-        private const int DefaultRetryTimes = 5;
+        internal const bool DefaultAutoRetry = true;
+        internal const int DefaultRetryDelay = 100;// in milliseconds
+        internal const int DefaultRetryTimes = 5;
 
 
         private readonly object _syncLock = new object();
@@ -38,14 +38,14 @@ namespace Velyo.Google.Services
         public string ApiKey { get; private set; }
 
         /// <summary>
-        /// Google Maps Geocode API web service URL.
-        /// </summary>
-        public string GeocodeApiUrl { get; set; } = DefaultGeocodeApiUrl;
-
-        /// <summary>
         /// Switch on/off auto retry on request problem. It is switched on by default.
         /// </summary>
         public bool AutoRetry { get; set; } = DefaultAutoRetry;
+
+        /// <summary>
+        /// Google Maps Geocode API web service URL.
+        /// </summary>
+        public string GeocodeApiUrl { get; set; } = DefaultGeocodeApiUrl;
 
         /// <summary>
         /// Delay between request retry, if retry is switch on. Default value is 100 milliseconds
