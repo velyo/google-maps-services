@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Velyo.Google.Services.Models;
 
 namespace Velyo.Google.Services
 {

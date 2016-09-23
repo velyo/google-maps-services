@@ -1,4 +1,4 @@
-﻿namespace Velyo.Google.Services
+﻿namespace Velyo.Google.Services.Models
 {
     public static class AddressType
     {

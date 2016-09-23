@@ -1,4 +1,4 @@
-﻿namespace Velyo.Google.Services
+﻿namespace Velyo.Google.Services.Models
 {
     public class Bounds
     {
@@ -13,5 +13,11 @@
         /// </summary>
         /// <value>The south west.</value>
         public LatLng SouthWest { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() => $"{SouthWest}|{NorthEast}";
     }
 }

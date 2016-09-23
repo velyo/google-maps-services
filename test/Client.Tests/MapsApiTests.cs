@@ -1,42 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 #if NET45
 using System.Threading.Tasks;
 #endif
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Velyo.Google.Services.Models;
 
 namespace Velyo.Google.Services.Tests
 {
     [TestClass]
-    public class GeocodingApiTests
+    public class MapsApiTests
     {
-        [TestMethod]
-        public void Create_Request_ByAddress()
-        {
-            GeocodingRequest request = GeocodingApi.CreateRequest(GeoApiContext.Default, "plovdiv bulgaria");
+        private static MapsApiContext _context = MapsApiContext.Default;
 
-            Assert.IsNotNull(request);
-        }
-
-        [TestMethod]
-        public void Create_Request_ByLocation()
-        {
-            GeocodingRequest request = GeocodingApi.CreateRequest(GeoApiContext.Default, "plovdiv bulgaria");
-
-            Assert.IsNotNull(request);
-        }
 
         [TestMethod]
         public void Geocode_Address()
         {
-            GeocodingResponse response = GeocodingApi.Geocode(GeoApiContext.Default, "plovdiv bulgaria");
+            GeocodingResponse response = MapsApi.Geocode(_context, "plovdiv bulgaria");
 
             Assert.IsNotNull(response);
-            Assert.AreEqual(ResponseStatus.OK, response.Status);
+            Assert.AreEqual(GeocodingResponseStatus.OK, response.Status);
 
-            LatLng expected = new LatLng(42.1354079, 24.7452904);
-            LatLng actual = response.Results?[0].Geometry.Location;
+            var expected = new LatLng(42.1354079, 24.7452904);
+            var actual = response.Results?[0].Geometry.Location;
 
             Assert.AreEqual(expected, actual);
         }
@@ -44,8 +31,8 @@ namespace Velyo.Google.Services.Tests
         [TestMethod]
         public void Geocode_Address_Many()
         {
-            IEnumerable<GeocodingResponse> responses = GeocodingApi.Geocode(
-                GeoApiContext.Default, "sofia, bulgaria", "plovdiv bulgaria", "varna, bulgaria");
+            IEnumerable< GeocodingResponse> responses = 
+                MapsApi.Geocode(_context, "sofia, bulgaria", "plovdiv bulgaria", "varna, bulgaria");
 
             Assert.IsNotNull(responses);
             Assert.AreEqual(3, responses.Count());
@@ -60,7 +47,7 @@ namespace Velyo.Google.Services.Tests
             for (int i = 0; i < 3; i++)
             {
                 GeocodingResponse response = responses.Skip(i).Take(1).FirstOrDefault();
-                Assert.AreEqual(ResponseStatus.OK, response.Status);
+                Assert.AreEqual(GeocodingResponseStatus.OK, response.Status);
 
                 LatLng actual = response.Results?[0].Geometry.Location;
 
@@ -71,10 +58,10 @@ namespace Velyo.Google.Services.Tests
         [TestMethod]
         public void Geocode_Location()
         {
-            GeocodingResponse response = GeocodingApi.Geocode(GeoApiContext.Default, new LatLng(42.1354079, 24.7452904));
+            GeocodingResponse response = MapsApi.Geocode(_context, new LatLng(42.1354079, 24.7452904));
 
             Assert.IsNotNull(response);
-            Assert.AreEqual(ResponseStatus.OK, response.Status);
+            Assert.AreEqual(GeocodingResponseStatus.OK, response.Status);
 
             string expected = @"bul. ""Hristo Botev"" 56, 4000 Plovdiv, Bulgaria";
             string actual = response.Results?[0].FormattedAddress;
@@ -91,7 +78,7 @@ namespace Velyo.Google.Services.Tests
                 new LatLng(42.1354079, 24.7452904),
                 new LatLng(43.2140504, 27.9147333)
             };
-            IEnumerable<GeocodingResponse> responses = GeocodingApi.Geocode(GeoApiContext.Default, locations);
+            IEnumerable<GeocodingResponse> responses = MapsApi.Geocode(_context, locations);
 
             Assert.IsNotNull(responses);
             Assert.AreEqual(3, responses.Count());
@@ -106,7 +93,7 @@ namespace Velyo.Google.Services.Tests
             for (int i = 0; i < 3; i++)
             {
                 GeocodingResponse response = responses.Skip(i).Take(1).FirstOrDefault();
-                Assert.AreEqual(ResponseStatus.OK, response.Status);
+                Assert.AreEqual(GeocodingResponseStatus.OK, response.Status);
 
                 string actual = response.Results?[0].FormattedAddress;
 
@@ -118,14 +105,10 @@ namespace Velyo.Google.Services.Tests
         [TestMethod]
         public async Task Geocode_Address_Async()
         {
-            GeocodingRequest request = GeocodingApi.CreateRequest(GeoApiContext.Default, "plovdiv bulgaria");
-
-            Assert.IsNotNull(request);
-
-            GeocodingResponse response = await request.GetResponseAsync();
+            GeocodingResponse response = await MapsApi.GeocodeAsync(_context, "plovdiv bulgaria");
 
             Assert.IsNotNull(response);
-            Assert.AreEqual(ResponseStatus.OK, response.Status);
+            Assert.AreEqual(GeocodingResponseStatus.OK, response.Status);
 
             LatLng expected = new LatLng(42.1354079, 24.7452904);
             LatLng actual = response.Results
@@ -139,8 +122,8 @@ namespace Velyo.Google.Services.Tests
         [TestMethod]
         public async Task Geocode_Address_AsyncMany()
         {
-            IEnumerable<GeocodingResponse> responses = await GeocodingApi.GeocodeAsync(
-                GeoApiContext.Default, "sofia, bulgaria", "plovdiv bulgaria", "varna, bulgaria");
+            IEnumerable<GeocodingResponse> responses = 
+                await MapsApi.GeocodeAsync(_context, "sofia, bulgaria", "plovdiv bulgaria", "varna, bulgaria");
 
             Assert.IsNotNull(responses);
             Assert.AreEqual(3, responses.Count());
@@ -155,7 +138,7 @@ namespace Velyo.Google.Services.Tests
             for (int i = 0; i < 3; i++)
             {
                 GeocodingResponse response = responses.Skip(i).Take(1).FirstOrDefault();
-                Assert.AreEqual(ResponseStatus.OK, response.Status);
+                Assert.AreEqual(GeocodingResponseStatus.OK, response.Status);
 
                 LatLng actual = response.Results
                     .Select(x => x.Geometry)
@@ -169,10 +152,10 @@ namespace Velyo.Google.Services.Tests
         [TestMethod]
         public async Task Geocode_LocationAsync()
         {
-            GeocodingResponse response = await GeocodingApi.GeocodeAsync(GeoApiContext.Default, new LatLng(42.1354079, 24.7452904));
+            GeocodingResponse response = await MapsApi.GeocodeAsync(_context, new LatLng(42.1354079, 24.7452904));
 
             Assert.IsNotNull(response);
-            Assert.AreEqual(ResponseStatus.OK, response.Status);
+            Assert.AreEqual(GeocodingResponseStatus.OK, response.Status);
 
             string expected = @"bul. ""Hristo Botev"" 56, 4000 Plovdiv, Bulgaria";
             string actual = response.Results?[0].FormattedAddress;
@@ -189,7 +172,7 @@ namespace Velyo.Google.Services.Tests
                 new LatLng(42.1354079, 24.7452904),
                 new LatLng(43.2140504, 27.9147333)
             };
-            IEnumerable<GeocodingResponse> responses = await GeocodingApi.GeocodeAsync(GeoApiContext.Default, locations);
+            IEnumerable<GeocodingResponse> responses = await MapsApi.GeocodeAsync(_context, locations);
 
             Assert.IsNotNull(responses);
             Assert.AreEqual(3, responses.Count());
@@ -204,7 +187,7 @@ namespace Velyo.Google.Services.Tests
             for (int i = 0; i < 3; i++)
             {
                 GeocodingResponse response = responses.Skip(i).Take(1).FirstOrDefault();
-                Assert.AreEqual(ResponseStatus.OK, response.Status);
+                Assert.AreEqual(GeocodingResponseStatus.OK, response.Status);
 
                 string actual = response.Results?[0].FormattedAddress;
 
@@ -217,14 +200,10 @@ namespace Velyo.Google.Services.Tests
         [TestMethod]
         public void Geocode_Address_Async()
         {
-            GeocodingRequest request = GeocodingApi.CreateRequest(GeoApiContext.Default, "plovdiv bulgaria");
-
-            Assert.IsNotNull(request);
-
-            GeocodingResponse response = request.GetResponseAsync();
+            GeocodingResponse response = MapsApi.GeocodeAsync(MapsApiContext.Default, "plovdiv bulgaria");
 
             Assert.IsNotNull(response);
-            Assert.AreEqual(ResponseStatus.OK, response.Status);
+            Assert.AreEqual(GeocodingResponseStatus.OK, response.Status);
 
             LatLng expected = new LatLng(42.1354079, 24.7452904);
             LatLng actual = response.Results
@@ -238,8 +217,8 @@ namespace Velyo.Google.Services.Tests
         [TestMethod]
         public void Geocode_Address_AsyncMany()
         {
-            IEnumerable<GeocodingResponse> responses = GeocodingApi.GeocodeAsync(
-                GeoApiContext.Default, "sofia, bulgaria", "plovdiv bulgaria", "varna, bulgaria");
+            IEnumerable<GeocodingResponse> responses = MapsApi.GeocodeAsync(
+                MapsApiContext.Default, "sofia, bulgaria", "plovdiv bulgaria", "varna, bulgaria");
 
             Assert.IsNotNull(responses);
             Assert.AreEqual(3, responses.Count());
@@ -254,7 +233,7 @@ namespace Velyo.Google.Services.Tests
             for (int i = 0; i < 3; i++)
             {
                 GeocodingResponse response = responses.Skip(i).Take(1).FirstOrDefault();
-                Assert.AreEqual(ResponseStatus.OK, response.Status);
+                Assert.AreEqual(GeocodingResponseStatus.OK, response.Status);
 
                 LatLng actual = response.Results
                     .Select(x => x.Geometry)
@@ -268,10 +247,10 @@ namespace Velyo.Google.Services.Tests
         [TestMethod]
         public void Geocode_LocationAsync()
         {
-            GeocodingResponse response = GeocodingApi.GeocodeAsync(GeoApiContext.Default, new LatLng(42.1354079, 24.7452904));
+            GeocodingResponse response = MapsApi.GeocodeAsync(MapsApiContext.Default, new LatLng(42.1354079, 24.7452904));
 
             Assert.IsNotNull(response);
-            Assert.AreEqual(ResponseStatus.OK, response.Status);
+            Assert.AreEqual(GeocodingResponseStatus.OK, response.Status);
 
             string expected = @"bul. ""Hristo Botev"" 56, 4000 Plovdiv, Bulgaria";
             string actual = response.Results?[0].FormattedAddress;
@@ -288,7 +267,7 @@ namespace Velyo.Google.Services.Tests
                 new LatLng(42.1354079, 24.7452904),
                 new LatLng(43.2140504, 27.9147333)
             };
-            IEnumerable<GeocodingResponse> responses = GeocodingApi.GeocodeAsync(GeoApiContext.Default, locations);
+            IEnumerable<GeocodingResponse> responses = MapsApi.GeocodeAsync(MapsApiContext.Default, locations);
 
             Assert.IsNotNull(responses);
             Assert.AreEqual(3, responses.Count());
@@ -303,7 +282,7 @@ namespace Velyo.Google.Services.Tests
             for (int i = 0; i < 3; i++)
             {
                 GeocodingResponse response = responses.Skip(i).Take(1).FirstOrDefault();
-                Assert.AreEqual(ResponseStatus.OK, response.Status);
+                Assert.AreEqual(GeocodingResponseStatus.OK, response.Status);
 
                 string actual = response.Results?[0].FormattedAddress;
 
@@ -311,11 +290,5 @@ namespace Velyo.Google.Services.Tests
             }
         }
 #endif
-
-        [TestInitialize]
-        private void BeforeTest()
-        {
-            Thread.Sleep(200);
-        }
     }
 }

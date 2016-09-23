@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Velyo.Google.Services
+namespace Velyo.Google.Services.Models
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Serializable]
     public class LatLng : IEquatable<LatLng>
     {
+        private static readonly NumberFormatInfo NumberFormat = CultureInfo.GetCultureInfo("en-US").NumberFormat;
+
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LatLng"/> class.
         /// </summary>
@@ -48,11 +54,7 @@ namespace Velyo.Google.Services
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns>The result of the operator.</returns>
-        public static bool operator ==(LatLng x, LatLng y)
-        {
-            return object.ReferenceEquals(x, null)
-                ? object.ReferenceEquals(y, null) : x.Equals(y);
-        }
+        public static bool operator ==(LatLng x, LatLng y) => ReferenceEquals(x, null) ? ReferenceEquals(y, null) : x.Equals(y);
 
         /// <summary>
         /// Implements the operator !=.
@@ -60,10 +62,7 @@ namespace Velyo.Google.Services
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <returns>The result of the operator.</returns>
-        public static bool operator !=(LatLng x, LatLng y)
-        {
-            return !(x == y);
-        }
+        public static bool operator !=(LatLng x, LatLng y) => !(x == y);
 
         /// <summary>
         /// Parses the specified point.
@@ -72,25 +71,23 @@ namespace Velyo.Google.Services
         /// <returns></returns>
         public static LatLng Parse(string point)
         {
-
-            if (point == null)
-                throw new ArgumentNullException("point");
+            if (point == null) throw new ArgumentNullException(nameof(point));
 
             if (!string.IsNullOrEmpty(point))
             {
-
                 point = point.Trim('(', ')');
                 string[] pair = point.Split(',');
+
                 if (pair.Length >= 2)
                 {
-                    var format = CultureInfo.GetCultureInfo("en").NumberFormat;
-                    double lat = Convert.ToDouble(pair[0], format);
-                    double lng = Convert.ToDouble(pair[1], format);
+                    double lat = Convert.ToDouble(pair[0], NumberFormat);
+                    double lng = Convert.ToDouble(pair[1], NumberFormat);
 
                     return new LatLng(lat, lng);
                 }
 
             }
+
             throw new ArgumentException("Invalid GeoLocation string format.");
 
         }
@@ -102,22 +99,15 @@ namespace Velyo.Google.Services
         /// <returns>
         /// 	<c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
-        public override bool Equals(object obj)
-        {
-            return (obj is LatLng) ? this.Equals(obj as LatLng) : false;
-        }
+        public override bool Equals(object obj) => (obj is LatLng) ? Equals(obj as LatLng) : false;
 
         /// <summary>
-        /// Equalses the specified other.
+        /// Check of current instance is equal to another one.
         /// </summary>
         /// <param name="other">The other.</param>
         /// <returns></returns>
-        public bool Equals(LatLng other)
-        {
-            return !object.ReferenceEquals(other, null)
-                ? ((this.Latitude == other.Latitude) && (this.Longitude == other.Longitude))
-                : false;
-        }
+        public bool Equals(LatLng other) => !ReferenceEquals(other, null) 
+            ? ((Latitude == other.Latitude) && (Longitude == other.Longitude)) : false;
 
         /// <summary>
         /// Returns a hash code for this instance.
@@ -125,10 +115,7 @@ namespace Velyo.Google.Services
         /// <returns>
         /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
         /// </returns>
-        public override int GetHashCode()
-        {
-            return this.Latitude.GetHashCode() ^ this.Longitude.GetHashCode();
-        }
+        public override int GetHashCode() => Latitude.GetHashCode() ^ Longitude.GetHashCode();
 
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents this instance.
@@ -136,12 +123,6 @@ namespace Velyo.Google.Services
         /// <returns>
         /// A <see cref="System.String"/> that represents this instance.
         /// </returns>
-        public override string ToString()
-        {
-
-            var format = CultureInfo.GetCultureInfo("en").NumberFormat;
-            return string.Format("{0},{1}",
-                this.Latitude.ToString(format), this.Longitude.ToString(format));
-        }
+        public override string ToString() => $"{Latitude.ToString(NumberFormat)},{Longitude.ToString(NumberFormat)}";
     }
 }

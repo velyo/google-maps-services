@@ -88,6 +88,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
@@ -117,42 +118,27 @@
     <None Include="..\..\common\VersionInfo100.cs">
       <Link>Properties\VersionInfo100.cs</Link>
     </None>
-    <Compile Include="AddressComponent.cs" />
-    <Compile Include="AddressType.cs" />
-    <Compile Include="Bounds.cs" />
-    <Compile Include="GeoApiContext.cs" />
-    <Compile Include="GeocodingApi.cs" />
+    <Compile Include="Extensions\TaskSynchronizationScope.cs" />
+    <Compile Include="Models\AddressComponent.cs" />
+    <Compile Include="Models\AddressType.cs" />
+    <Compile Include="Models\Bounds.cs" />
+    <Compile Include="Extensions\NameValueCollectionExtensions.cs" />
+    <Compile Include="MapsApiContext.cs" />
+    <Compile Include="MapsApi.cs" />
     <Compile Include="GeocodingRequest.cs" />
-    <Compile Include="GeocodingRequest35.cs" Condition="'$(Configuration)|$(Platform)' == 'Debug-Net35|AnyCPU'">
-      <DependentUpon>GeocodingRequest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GeocodingRequest35.cs" Condition="'$(Configuration)|$(Platform)' == 'Release-Net35|AnyCPU'">
-      <DependentUpon>GeocodingRequest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GeocodingRequest35.cs" Condition="'$(Configuration)|$(Platform)' == 'Debug-Net40|AnyCPU'">
-      <DependentUpon>GeocodingRequest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GeocodingRequest35.cs" Condition="'$(Configuration)|$(Platform)' == 'Release-Net40|AnyCPU'">
-      <DependentUpon>GeocodingRequest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GeocodingRequest45.cs" Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-      <DependentUpon>GeocodingRequest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GeocodingRequest45.cs" Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-      <DependentUpon>GeocodingRequest.cs</DependentUpon>
-    </Compile>
     <Compile Include="GeocodingResponse.cs" />
-    <Compile Include="GeocodingJsonData.cs" />
-    <Compile Include="LocationType.cs" />
-    <Compile Include="Geometry.cs" />
+    <Compile Include="GeocodingResponseData.cs" />
+    <Compile Include="Models\LocationType.cs" />
+    <Compile Include="Models\Geometry.cs" />
     <Compile Include="GeocodingResult.cs" />
-    <Compile Include="LatLng.cs" />
-    <Compile Include="ResponseStatus.cs" />
+    <Compile Include="Models\LatLng.cs" />
+    <Compile Include="GeocodingResponseStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Client.nuspec">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>

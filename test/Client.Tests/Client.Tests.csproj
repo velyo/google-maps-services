@@ -117,7 +117,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GeocodingApiTests.cs" />
+    <Compile Include="MapsApiTests.cs" />
     <Compile Include="GeocodingTests.cs" />
     <Compile Include="IssueTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

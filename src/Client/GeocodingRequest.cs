@@ -1,86 +1,70 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
 using System.Web;
 using System.Web.Script.Serialization;
+using Velyo.Google.Services.Models;
+using System.Diagnostics;
+#if NET45
+using System.Threading.Tasks;
+#endif
 
 namespace Velyo.Google.Services
 {
     public partial class GeocodingRequest
     {
-        static readonly string RequestUrl = "http://maps.google.com/maps/api/geocode/json?";
-
-        private GeoApiContext _context;
+        private MapsApiContext _context;
+#if NET35 || NET40
+        private WebResponse _asyncResponse;
+        private ManualResetEvent _asyncTrigger;
+#endif
 
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
         /// </summary>
-        /// <param name="context"></param>
         /// <param name="address"></param>
-        public GeocodingRequest(GeoApiContext context, string address) 
+        /// <param name="context"></param>
+        public GeocodingRequest(string address, MapsApiContext context = null)
         {
-            _context = context;
+            _context = context ?? MapsApiContext.Default;
             Address = address;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
         /// </summary>
-        /// <param name="address">The address.</param>
-        public GeocodingRequest(string address) : this(null, address) { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
-        /// </summary>
-        /// <param name="context"></param>
         /// <param name="location"></param>
-        public GeocodingRequest(GeoApiContext context, LatLng location) 
+        /// <param name="context"></param>
+        public GeocodingRequest(LatLng location, MapsApiContext context = null)
         {
-            _context = context;
+            _context = context ?? MapsApiContext.Default;
             Location = location;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
         /// </summary>
-        /// <param name="location">The location.</param>
-        public GeocodingRequest(LatLng location) : this(null, location) { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
-        /// </summary>
-        /// <param name="context"></param>
         /// <param name="latitude"></param>
         /// <param name="longitude"></param>
-        public GeocodingRequest(GeoApiContext context, double latitude, double longitude) 
+        /// <param name="context"></param>
+        public GeocodingRequest(double latitude, double longitude, MapsApiContext context)
         {
-            _context = context;
+            _context = context ?? MapsApiContext.Default;
             Location = new LatLng(latitude, longitude);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
         /// </summary>
-        /// <param name="latitude"></param>
-        /// <param name="longitude"></param>
-        public GeocodingRequest(double latitude, double longitude) : this(null, latitude, longitude) { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
-        /// </summary>
         /// <param name="context"></param>
-        public GeocodingRequest(GeoApiContext context)
+        public GeocodingRequest(MapsApiContext context = null)
         {
-            _context = context;
+            _context = context  ?? MapsApiContext.Default;
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GeocodingRequest"/> class.
-        /// </summary>
-        public GeocodingRequest() { }
 
 
         /// <summary>
@@ -88,6 +72,13 @@ namespace Velyo.Google.Services
         /// </summary>
         /// <value>The address.</value>
         public string Address { get; set; }
+
+        /// <summary>
+        /// The bounding box of the viewport within which to bias geocode results more prominently. 
+        /// This parameter will only influence, not fully restrict, results from the geocoder. 
+        /// (For more information <see href="https://developers.google.com/maps/documentation/geocoding/intro#Viewports">Viewport Biasing </see>)
+        /// </summary>
+        public Bounds Bounds { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicates whether or not the geocoding request comes from a device with a location sensor.
@@ -118,37 +109,6 @@ namespace Velyo.Google.Services
 
 
         /// <summary>
-        /// Creates <code>GeocodingRequest</code> for the specified address.
-        /// </summary>
-        /// <param name="address">The address.</param>
-        /// <returns></returns>
-        static public GeocodingRequest Create(string address)
-        {
-            return new GeocodingRequest(address);
-        }
-
-        /// <summary>
-        /// Creates reverse <code>GeocodingRequest</code> for the specified latitude and longitude.
-        /// </summary>
-        /// <param name="latitude">The latitude.</param>
-        /// <param name="longitude">The longitude.</param>
-        /// <returns></returns>
-        static public GeocodingRequest Create(double latitude, double longitude)
-        {
-            return new GeocodingRequest(latitude, longitude);
-        }
-
-        /// <summary>
-        /// Creates reverse <code>GeocodingRequest</code> for the specified latitude and longitude.
-        /// </summary>
-        /// <param name="location">The location.</param>
-        /// <returns></returns>
-        static public GeocodingRequest Create(LatLng location)
-        {
-            return new GeocodingRequest(location);
-        }
-
-        /// <summary>
         /// Executes <code>GeocodingRequest</code> against Google Maps Geocoding API web service 
         /// and returns the result as <seealso cref="GeocodingResponse"/>.
         /// </summary>
@@ -158,61 +118,159 @@ namespace Velyo.Google.Services
             Validate();
 
             string url = BuildRequestUrl();
-            GeocodingJsonData jsonData = null;
-            bool autoRetry = _context?.AutoRetry ?? false;
-            int retryTimeout = _context?.RetryTimeout ?? 0;
-            int retryTimes = _context?.RetryTimes ?? 1;
+            GeocodingResponseData data = Process(url);
 
-            for (int n = 1; n <= retryTimes; n++)
+            if (data.IsOverQueryLimit)
             {
-                var request = WebRequest.Create(url);
-
-                using (var response = request.GetResponse())
-                {
-                    jsonData = GetData(response);
-                }
-
-                if (autoRetry && (jsonData.status == ResponseStatus.OVER_QUERY_LIMIT))
-                {
-                    Thread.Sleep(n * retryTimeout);
-                    continue;
-                }
-                break;
+                data = _context.Retry(() => Process(url), d => !d.IsOverQueryLimit);
             }
 
-            return new GeocodingResponse(jsonData);
+            return new GeocodingResponse().Parse(data);
         }
+
+#if NET45
+        public async Task<GeocodingResponse> GetResponseAsync()
+        {
+            Validate();
+
+            string url = BuildRequestUrl();
+            GeocodingResponseData data = await ProcessAsync(url);
+
+            if (data.IsOverQueryLimit)
+            {
+                data = await _context.RetryAsync(async () => await ProcessAsync(url), d => !d.IsOverQueryLimit);
+            }
+
+            return new GeocodingResponse().Parse(data);
+        }
+
+        private async Task<GeocodingResponseData> ProcessAsync(string url)
+        {
+            var request = WebRequest.Create(url);
+
+            using (var response = await request.GetResponseAsync())
+            {
+                return await GetDataAsync(response);
+            }
+        }
+
+        private async Task<GeocodingResponseData> GetDataAsync(WebResponse response)
+        {
+            GeocodingResponseData jsonData = null;
+            string responseData = null;
+
+            using (var reader = new StreamReader(response.GetResponseStream()))
+            {
+                responseData = await reader.ReadToEndAsync();
+            }
+
+            if (responseData != null)
+            {
+                var serializer = new JavaScriptSerializer();
+                jsonData = serializer.Deserialize<GeocodingResponseData>(responseData);
+            }
+
+            return jsonData;
+        }
+#endif
+
+#if NET35 || NET40
+        /// <summary>
+        /// Executes <code>GeocodingRequest</code> against Google Maps Geocoding API web service 
+        /// and returns the result as <seealso cref="GeocodingResponse"/>, in asynchronous fashion.
+        /// </summary>
+        /// <returns></returns>
+        public GeocodingResponse GetResponseAsync()
+        {
+            Validate();
+
+            string url = BuildRequestUrl();
+            GeocodingResponseData data = ProcessAsync(url);
+
+            if (data.IsOverQueryLimit)
+            {
+                data = _context.Retry(() => ProcessAsync(url), d => !d.IsOverQueryLimit);
+            }
+
+            return new GeocodingResponse().Parse(data);
+        }
+
+        private void FinishGetResponseAsync(IAsyncResult result)
+        {
+            var request = result.AsyncState as WebRequest;
+
+            if (request != null)
+            {
+                _asyncResponse = request.EndGetResponse(result);
+                // Set the ManualResetEvent so the main thread can exit.
+                _asyncTrigger.Set();
+            }
+        }
+
+        private GeocodingResponseData ProcessAsync(string url)
+        {
+            var request = WebRequest.Create(url);
+
+            using (_asyncTrigger = new ManualResetEvent(false))
+            {
+                request.BeginGetResponse(new AsyncCallback(FinishGetResponseAsync), request);
+                // Wait until the ManualResetEvent is set so that the application does not exit until after the callback is called.
+                // TODO add and handle proper timeout
+                _asyncTrigger.WaitOne();
+            }
+
+            using (_asyncResponse)
+            {
+                return GetData(_asyncResponse);
+            }
+        }
+#endif
 
         private string BuildRequestUrl()
         {
-            var buffer = new StringBuilder(RequestUrl);
+            var buffer = new StringBuilder(_context?.GeocodeApiUrl ?? MapsApiContext.DefaultGeocodeApiUrl);
 
-            if (Location != null)
+            if (Address != null)
             {
-                buffer.AppendFormat("latlng={0}", Location.ToString());
+                var address = HttpUtility.UrlEncode(Address);
+                buffer.Append($"address={address}");
             }
             else
-            {
-                buffer.AppendFormat("address={0}", HttpUtility.UrlEncode(Address));
+            { // reverse geocoding
+                buffer.Append($"latlng={Location}");
             }
 
-            buffer.AppendFormat("&sensor={0}", IsSensor.ToString().ToLower());
+            if (_context?.ApiKey != null)
+            {
+                buffer.Append($"&key={_context.ApiKey}");
+            }
+
+            if (Bounds != null)
+            {
+                buffer.Append($"&bounds={Bounds}");
+            }
 
             if (!string.IsNullOrEmpty(Language))
             {
-                buffer.AppendFormat("&language={0}", HttpUtility.UrlEncode(Language));
+                var language = HttpUtility.UrlEncode(Language);
+                buffer.Append($"&language={language}");
             }
+
             if (!string.IsNullOrEmpty(Region))
             {
-                buffer.AppendFormat("&region={0}", HttpUtility.UrlEncode(Region));
+                var region = HttpUtility.UrlEncode(Region);
+                buffer.Append($"&region={region}");
             }
+
+            var sensor = IsSensor.ToString().ToLower();
+            buffer.Append($"&sensor={sensor}");
 
             return buffer.ToString();
         }
 
-        private GeocodingJsonData GetData(WebResponse response)
+        private GeocodingResponseData GetData(WebResponse response)
         {
-            GeocodingJsonData jsonData = null;
+            GeocodingResponseData jsonData = null;
             string responseData = null;
 
             using (var reader = new StreamReader(response.GetResponseStream()))
@@ -223,12 +281,23 @@ namespace Velyo.Google.Services
             if (responseData != null)
             {
                 var serializer = new JavaScriptSerializer();
-                jsonData = serializer.Deserialize<GeocodingJsonData>(responseData);
+                jsonData = serializer.Deserialize<GeocodingResponseData>(responseData);
             }
 
             return jsonData;
         }
 
+        private GeocodingResponseData Process(string url)
+        {
+            var request = WebRequest.Create(url);
+
+            using (var response = request.GetResponse())
+            {
+                return GetData(response);
+            }
+        }
+
+        [DebuggerStepThrough]
         private void Validate()
         {
             if ((Location != null) && (!string.IsNullOrEmpty(Address)))

@@ -1,7 +1,8 @@
 ﻿namespace Velyo.Google.Services
 {
-    public enum ResponseStatus
+    public enum GeocodingResponseStatus
     {
+        None,
         OK,
         ZERO_RESULTS,
         OVER_QUERY_LIMIT,
