@@ -1,4 +1,5 @@
-﻿namespace System.Threading.Tasks
+﻿#if NET45
+namespace System.Threading.Tasks
 {
     /// <summary>
     /// Synchronizes tasks so that they are executed after each other.
@@ -65,3 +66,4 @@
         }
     }
 }
+#endif
