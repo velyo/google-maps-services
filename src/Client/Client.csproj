@@ -113,6 +113,7 @@
     <Compile Include="Models\LatLng.cs" />
     <Compile Include="GeocodingResponseStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="App.config" />
     <None Include="Client.nuspec">
       <SubType>Designer</SubType>
     </None>

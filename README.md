@@ -91,9 +91,42 @@ GeoRequest request = new GeoRequest("plovdiv bulgaria");
 GeoResponse response = await request.GetResponseAsync();
 ```
 
+### Context
+
+[MapsApiContext](https://github.com/velyo/google-maps-services/blob/master/src/Client/MapsApiContext.cs) was added to share common settings between Google Maps API requests.  
+New instance of context can be created with the seetings to use, or can be loaded from config app settings (app.config or web.config).
+There is a default instance of the context (MapsApiContext.Default) which by default will try to load from config app settings or use default value per setting.  
+Default settings' values:
+``` csharp
+DefaultGeocodeApiUrl = "http://maps.google.com/maps/api/geocode/json?";
+DefaultAutoRetry = true;
+DefaultRetryDelay = 100;// in milliseconds
+DefaultRetryTimes = 5;
+```
+A sample config app settings:
+``` xml
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <appSettings>
+        <add key="GoogleMaps.ApiKey" value="API_KEY"/>
+        <!--next is optional, by default http://maps.google.com/maps/api/geocode/json? will be used-->
+        <add key="GoogleMaps.GeocodeApiUrl" value="API_URL"/>
+        <add key="GoogleMaps.AutoRetry" value="true"/>
+        <add key="GoogleMaps.RetryDelay" value="100"/>
+        <add key="GoogleMaps.RetryTimes" value="5"/>
+    </appSettings>
+</configuration>
+```
+
+When creating requests without an instance of MapsApiContext, default instance will be used.
+
 ## Contribute
 
 Check out the [contribution guidelines](https://github.com/velyo/google-maps-services/blob/master/CONTRIBUTING.md) if you want to contribute to this project.
+
+## Credits
+
+- Thanks to [Rico Suter](https://github.com/rsuter) for [TaskSynchronizationScope](https://github.com/MyToolkit/MyToolkit/blob/master/src/MyToolkit/Utilities/TaskSynchronizationScope.cs) used to synchronize async code blocks
 
 ## License
 
