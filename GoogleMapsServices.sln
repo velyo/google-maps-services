@@ -14,14 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{B16FD363
 		build.fsx = build.fsx
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{46790268-6187-4D13-A3B6-B1A2ADCA9660}"
-	ProjectSection(SolutionItems) = preProject
-		common\VersionInfo035.cs = common\VersionInfo035.cs
-		common\VersionInfo040.cs = common\VersionInfo040.cs
-		common\VersionInfo045.cs = common\VersionInfo045.cs
-		common\VersionInfo100.cs = common\VersionInfo100.cs
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8AF6E686-EE31-4CCF-A74A-3658E0F15A47}"
 	ProjectSection(SolutionItems) = preProject
 		CHANGELOG.md = CHANGELOG.md

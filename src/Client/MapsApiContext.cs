@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Threading;
 #if NET45
 using System.Threading.Tasks;
+using MyToolkit.Utilities;
 #endif
 
 namespace Velyo.Google.Services
