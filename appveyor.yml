@@ -15,9 +15,6 @@
     - msbuild GoogleMapsServices.sln /p:Configuration=Release-Net40
     - nuget pack src/Client/Client.nuspec -Version %APPVEYOR_BUILD_VERSION%
   assembly_info:
-    assembly_version: '{version}'
-    assembly_file_version: '{version}'
-  assembly_info:
     patch: true
     assembly_version: '{version}'
     assembly_file_version: '{version}'
@@ -38,7 +35,7 @@
   branches:
     only:
       - net35
-  version: 2.0.{build}
+  version: 2.1.0.{build}
   configuration: Release-Net35
   platform: Any CPU
   build:
@@ -51,7 +48,7 @@
   branches:
     only:
       - net40
-  version: 2.0.{build}
+  version: 2.1.0.{build}
   configuration: Release-Net40
   platform: Any CPU
   build:
