@@ -9,7 +9,7 @@ Google Maps APIs
 - [ ] Roads API
 - [ ] Time Zone API
 
-Featues
+Features
 - [ ] Portable class library build
 - [ ] .NET Core library build
 - [ ] SQLCLR functions for Google.Maps.Client usage inside MSSQL
@@ -21,6 +21,15 @@ download in the
 # Changelog
 
 These are the changes to each version that has been released.
+
+## v2.1.0
+
+**2016-09-26**
+
+- [x] MapsApiContext to hold settings to share between requests
+- [x] MapsApi class with some helper methods
+- [x] Improved synchronization on request delay
+- [x] More unit tests
 
 ## v2.0
 
