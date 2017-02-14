@@ -98,7 +98,7 @@ New instance of context can be created with the seetings to use, or can be loade
 There is a default instance of the context (MapsApiContext.Default) which by default will try to load from config app settings or use default value per setting.  
 Default settings' values:
 ``` csharp
-DefaultGeocodeApiUrl = "http://maps.google.com/maps/api/geocode/json?";
+DefaultGeocodeApiUrl = "https://maps.google.com/maps/api/geocode/json?";
 DefaultAutoRetry = true;
 DefaultRetryDelay = 100;// in milliseconds
 DefaultRetryTimes = 5;
@@ -109,7 +109,7 @@ A sample config app settings:
 <configuration>
     <appSettings>
         <add key="GoogleMaps.ApiKey" value="API_KEY"/>
-        <!--next is optional, by default http://maps.google.com/maps/api/geocode/json? will be used-->
+        <!--next is optional, by default https://maps.google.com/maps/api/geocode/json? will be used-->
         <add key="GoogleMaps.GeocodeApiUrl" value="API_URL"/>
         <add key="GoogleMaps.AutoRetry" value="true"/>
         <add key="GoogleMaps.RetryDelay" value="100"/>
