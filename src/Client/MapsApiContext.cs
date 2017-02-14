@@ -20,7 +20,7 @@ namespace Velyo.Google.Services
         /// </summary>
         public static readonly MapsApiContext Default = Load();
 
-        internal const string DefaultGeocodeApiUrl = "http://maps.google.com/maps/api/geocode/json?";
+        internal const string DefaultGeocodeApiUrl = "https://maps.google.com/maps/api/geocode/json?";
 
         internal const bool DefaultAutoRetry = true;
         internal const int DefaultRetryDelay = 100;// in milliseconds
