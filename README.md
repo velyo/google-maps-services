@@ -57,10 +57,10 @@ Install-Package Google.Maps.Client
 #### Address Geocoding Request
 
 ```csharp
-GeoRequest request = new GeoRequest("plovdiv bulgaria");
-GeoResponse response = request.GetResponse();
-// GeoResponse response = request.GetResponseAsync();
-GeoLocation location = response.Results[0].Geometry.Location;
+GeocodingRequest request = new GeocodingRequest("plovdiv bulgaria");
+GeocodingResponse response = request.GetResponse();
+// GeocodingResponse response = request.GetResponseAsync();
+LatLng location = response.Results[0].Geometry.Location;
 double latitude = location.Latitude;
 double longitude = location.Longitude;
 // TODO use latitude/longitude values}}
@@ -69,8 +69,8 @@ double longitude = location.Longitude;
 #### Reverse Geocoding Request
 
 ```csharp
-GeoRequest request = new GeoRequest(42.1438409, 24.7495615);
-GeoResponse response = request.GetResponse();
+GeocodingRequest request = new GeocodingRequest(42.1438409, 24.7495615);
+GeocodingResponse response = request.GetResponse();
 string address = response.Results[0].FormattedAddress;
 // TODO use address values
 ```
@@ -81,14 +81,14 @@ Builds for all .NET frameworks support async request/response now.
 
 ```csharp
 // NET35 & NET40 async get request
-GeoRequest request = new GeoRequest("plovdiv bulgaria");
-GeoResponse response = request.GetResponseAsync();
+GeocodingRequest request = new GeocodingRequest("plovdiv bulgaria");
+GeocodingResponse response = request.GetResponseAsync();
 ```
 
 ```csharp
 // NET45 async get request
-GeoRequest request = new GeoRequest("plovdiv bulgaria");
-GeoResponse response = await request.GetResponseAsync();
+GeocodingRequest request = new GeocodingRequest("plovdiv bulgaria");
+GeocodingResponse response = await request.GetResponseAsync();
 ```
 
 ### Context
