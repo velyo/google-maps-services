@@ -7,6 +7,8 @@
   version: 2.1.1.{build}
   configuration: Release
   platform: Any CPU
+  before_build:
+    - nuget restore
   build:
     verbosity: minimal
   build_script:

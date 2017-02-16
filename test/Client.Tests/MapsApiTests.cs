@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 #if NET45
 using System.Threading.Tasks;
 #endif
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Velyo.Google.Services.Models;
 
 namespace Velyo.Google.Services.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class MapsApiTests
     {
         private static MapsApiContext _context = MapsApiContext.Default;
 
 
-        [TestMethod]
+        [Test]
         public void Geocode_Address()
         {
             GeocodingResponse response = MapsApi.Geocode(_context, "plovdiv bulgaria");
@@ -28,7 +28,7 @@ namespace Velyo.Google.Services.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void Geocode_Address_Many()
         {
             IEnumerable< GeocodingResponse> responses = 
@@ -55,7 +55,7 @@ namespace Velyo.Google.Services.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void Geocode_Location()
         {
             GeocodingResponse response = MapsApi.Geocode(_context, new LatLng(42.1354079, 24.7452904));
@@ -69,7 +69,7 @@ namespace Velyo.Google.Services.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void Geocode_Location_Many()
         {
             var locations = new LatLng[]
@@ -102,7 +102,7 @@ namespace Velyo.Google.Services.Tests
         }
 
 #if NET45
-        [TestMethod]
+        [Test]
         public async Task Geocode_Address_Async()
         {
             GeocodingResponse response = await MapsApi.GeocodeAsync(_context, "plovdiv bulgaria");
@@ -119,7 +119,7 @@ namespace Velyo.Google.Services.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public async Task Geocode_Address_AsyncMany()
         {
             IEnumerable<GeocodingResponse> responses = 
@@ -149,7 +149,7 @@ namespace Velyo.Google.Services.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public async Task Geocode_LocationAsync()
         {
             GeocodingResponse response = await MapsApi.GeocodeAsync(_context, new LatLng(42.1354079, 24.7452904));
@@ -163,7 +163,7 @@ namespace Velyo.Google.Services.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public async Task Geocode_Location_ManyAsync()
         {
             var locations = new LatLng[]
@@ -197,7 +197,7 @@ namespace Velyo.Google.Services.Tests
 #endif
 
 #if NET35 || NET40
-        [TestMethod]
+        [Test]
         public void Geocode_Address_Async()
         {
             GeocodingResponse response = MapsApi.GeocodeAsync(MapsApiContext.Default, "plovdiv bulgaria");
@@ -214,7 +214,7 @@ namespace Velyo.Google.Services.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void Geocode_Address_AsyncMany()
         {
             IEnumerable<GeocodingResponse> responses = MapsApi.GeocodeAsync(
@@ -244,7 +244,7 @@ namespace Velyo.Google.Services.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void Geocode_LocationAsync()
         {
             GeocodingResponse response = MapsApi.GeocodeAsync(MapsApiContext.Default, new LatLng(42.1354079, 24.7452904));
@@ -258,7 +258,7 @@ namespace Velyo.Google.Services.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void Geocode_Location_ManyAsync()
         {
             var locations = new LatLng[]

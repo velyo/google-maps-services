@@ -1,12 +1,11 @@
-﻿using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 
 namespace Velyo.Google.Services.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class IssueTests
     {
-        [TestMethod]
+        [Test]
         public void Issue14376()
         {
             var request = new GeocodingRequest("BH5 1DP");
@@ -14,7 +13,7 @@ namespace Velyo.Google.Services.Tests
             Assert.AreEqual(GeocodingResponseStatus.OK, response.Status);
         }
 
-        [TestMethod]
+        [Test]
         public void Issue13038()
         {
             GeocodingRequest request = new GeocodingRequest("Yonge and Finch Toronto Canada Ontario");
@@ -22,7 +21,7 @@ namespace Velyo.Google.Services.Tests
             Assert.AreEqual(GeocodingResponseStatus.OK, response.Status);
         }
 
-        [TestMethod]
+        [Test]
         public void Issue11898()
         {
             GeocodingRequest request = new GeocodingRequest("4 Cassia Ct, Alice Springs, Northern Territory, 0870, Australia");

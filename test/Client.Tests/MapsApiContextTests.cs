@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Specialized;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Velyo.Google.Services.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class MapsApiContextTests
     {
-        [TestMethod]
+        [Test]
         public void MapsApi_Default()
         {
             var context = MapsApiContext.Default;
@@ -20,14 +20,13 @@ namespace Velyo.Google.Services.Tests
             Assert.AreEqual(MapsApiContext.DefaultRetryTimes, context.RetryTimes);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void MapsApi_Load_Settings_Null()
         {
-            MapsApiContext.Load(null);
+            Assert.Throws<ArgumentNullException>(() => MapsApiContext.Load(null));
         }
 
-        [TestMethod]
+        [Test]
         public void MapsApi_Load_Settings_Empty()
         {
             var context = MapsApiContext.Load(new NameValueCollection());
@@ -40,7 +39,7 @@ namespace Velyo.Google.Services.Tests
             Assert.AreEqual(MapsApiContext.DefaultRetryTimes, context.RetryTimes);
         }
 
-        [TestMethod]
+        [Test]
         public void MapsApi_Load_Settings_ApiKey()
         {
             var expected = "TEST_KEY";
@@ -58,7 +57,7 @@ namespace Velyo.Google.Services.Tests
             Assert.AreEqual(MapsApiContext.DefaultRetryTimes, context.RetryTimes);
         }
 
-        [TestMethod]
+        [Test]
         public void MapsApi_Load_Settings_AutoRetry()
         {
             var expected = false;
@@ -76,7 +75,7 @@ namespace Velyo.Google.Services.Tests
             Assert.AreEqual(MapsApiContext.DefaultRetryTimes, context.RetryTimes);
         }
 
-        [TestMethod]
+        [Test]
         public void MapsApi_Load_Settings_GeocodeApiUrl()
         {
             var expected = "TEST_URL";
@@ -94,7 +93,7 @@ namespace Velyo.Google.Services.Tests
             Assert.AreEqual(MapsApiContext.DefaultRetryTimes, context.RetryTimes);
         }
 
-        [TestMethod]
+        [Test]
         public void MapsApi_Load_Settings_RetryDelay()
         {
             var expected = 300;
@@ -112,7 +111,7 @@ namespace Velyo.Google.Services.Tests
             Assert.AreEqual(MapsApiContext.DefaultRetryTimes, context.RetryTimes);
         }
 
-        [TestMethod]
+        [Test]
         public void MapsApi_Load_Settings_RetryTimes()
         {
             var expected = 10;
