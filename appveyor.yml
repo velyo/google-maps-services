@@ -4,7 +4,7 @@
   branches:
     only:
       - master
-  version: 2.1.1.{build}
+  version: 2.1.2.{build}
   configuration: Release
   platform: Any CPU
   before_build:
@@ -37,7 +37,7 @@
   branches:
     only:
       - net35
-  version: 2.1.1.{build}
+  version: 2.1.2.{build}
   configuration: Release-Net35
   platform: Any CPU
   before_build:
@@ -52,7 +52,7 @@
   branches:
     only:
       - net40
-  version: 2.1.1.{build}
+  version: 2.1.2.{build}
   configuration: Release-Net40
   platform: Any CPU
   before_build:
