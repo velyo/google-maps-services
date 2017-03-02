@@ -33,6 +33,14 @@ namespace Velyo.Google.Services
 #endif
 
 
+        public MapsApiContext(string apiKey)
+        {
+            ApiKey = apiKey;
+        }
+
+        public MapsApiContext() { }
+
+
         /// <summary>
         /// Google Maps API key to be used. You can issue one <see href="https://developers.google.com/maps/documentation/geocoding/get-api-key">here</see>
         /// </summary>
@@ -138,7 +146,7 @@ namespace Velyo.Google.Services
                     {
                         await Task.Delay((n + 1) * RetryDelay);
                         result = await process();
-                        if(predicate(result)) return result;
+                        if (predicate(result)) return result;
                     }
                 }
 
