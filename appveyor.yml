@@ -40,6 +40,8 @@
   version: 2.1.1.{build}
   configuration: Release-Net35
   platform: Any CPU
+  before_build:
+    - nuget restore
   build:
     verbosity: minimal
   test: off
@@ -53,6 +55,8 @@
   version: 2.1.1.{build}
   configuration: Release-Net40
   platform: Any CPU
+  before_build:
+    - nuget restore
   build:
     verbosity: minimal
   test: off
