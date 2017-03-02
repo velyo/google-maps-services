@@ -57,11 +57,11 @@ namespace Velyo.Google.Services
 
         internal GeocodingResponse Parse(GeocodingResponseData data)
         {
-            Status = data?.Status ?? GeocodingResponseStatus.None;
+            Status = data?.status ?? GeocodingResponseStatus.None;
 
             if (Status == GeocodingResponseStatus.OK)
             {
-                foreach (var r in data.Results)
+                foreach (var r in data.results)
                 {
 
                     List<AddressComponent> addressComponents = new List<AddressComponent>(r.address_components.Length);
@@ -69,9 +69,9 @@ namespace Velyo.Google.Services
                     {
                         addressComponents.Add(new AddressComponent
                         {
-                            LongName = ac.LongName,
-                            ShortName = ac.ShortName,
-                            Types = ac.Types
+                            LongName = ac.long_name,
+                            ShortName = ac.short_name,
+                            Types = ac.types
                         });
                     }
 
@@ -83,13 +83,13 @@ namespace Velyo.Google.Services
                         {
                             NorthEast = new LatLng
                             {
-                                Latitude = r.geometry.bounds.NorthEast.lat,
-                                Longitude = r.geometry.bounds.NorthEast.lng
+                                Latitude = r.geometry.bounds.northeast.lat,
+                                Longitude = r.geometry.bounds.northeast.lng
                             },
                             SouthWest = new LatLng
                             {
-                                Latitude = r.geometry.bounds.SouthWest.lat,
-                                Longitude = r.geometry.bounds.SouthWest.lng
+                                Latitude = r.geometry.bounds.southwest.lat,
+                                Longitude = r.geometry.bounds.southwest.lng
                             }
                         };
                     }
@@ -109,13 +109,13 @@ namespace Velyo.Google.Services
                         {
                             NorthEast = new LatLng
                             {
-                                Latitude = r.geometry.viewport.NorthEast.lat,
-                                Longitude = r.geometry.viewport.NorthEast.lng
+                                Latitude = r.geometry.viewport.northeast.lat,
+                                Longitude = r.geometry.viewport.northeast.lng
                             },
                             SouthWest = new LatLng
                             {
-                                Latitude = r.geometry.viewport.SouthWest.lat,
-                                Longitude = r.geometry.viewport.SouthWest.lng
+                                Latitude = r.geometry.viewport.southwest.lat,
+                                Longitude = r.geometry.viewport.southwest.lng
                             }
                         };
                     }
