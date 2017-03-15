@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>This is the HOMEPAGE. </title>
+    <title>.NET Client for Google Maps Services </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="This is the HOMEPAGE. ">
+    <meta name="title" content=".NET Client for Google Maps Services ">
     <meta name="generator" content="docfx 2.13.2.0">
     
     <link rel="shortcut icon" href="favicon.ico">
@@ -59,13 +59,98 @@
         <div class="article row grid">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
-              <h1 id="this-is-the-homepage">This is the <strong>HOMEPAGE</strong>.</h1>
+              <h1 id="net-client-for-google-maps-services">.NET Client for Google Maps Services</h1>
               
-<p>Refer to <a href="http://daringfireball.net/projects/markdown/">Markdown</a> for how to write markdown files.</p>
-<h2 id="quick-start-notes">Quick Start Notes:</h2>
+<p><a href="https://ci.appveyor.com/project/velyo/google-maps-services"><img src="https://ci.appveyor.com/api/projects/status/ihwbnutdfeyb34pb?svg=true" alt="Build status"></a> 
+<a href="https://ci.appveyor.com/project/velyo/google-maps-services/branch/net35"><img src="https://ci.appveyor.com/api/projects/status/ihwbnutdfeyb34pb/branch/net35?svg=true&amp;pendingText=net35&amp;failingText=net35&amp;passingText=net35" alt="Build status"></a> 
+<a href="https://ci.appveyor.com/project/velyo/google-maps-services/branch/net40"><img src="https://ci.appveyor.com/api/projects/status/ihwbnutdfeyb34pb/branch/net40?svg=true&amp;pendingText=net40&amp;failingText=net40&amp;passingText=net40" alt="Build status"></a><br><a href="https://www.nuget.org/packages/Google.Maps.Client/"><img src="https://img.shields.io/nuget/v/Google.Maps.Client.svg?maxAge=600" alt="NuGet"></a><br><a href="http://waffle.io/velyo/google-maps-services"><img src="https://badge.waffle.io/velyo/google-maps-services.svg?label=ready&amp;title=Ready" alt="Stories in Ready"></a> 
+<a href="https://gitter.im/velyo/google-maps-services?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/velyo/google-maps-services.svg" alt="Gitter"></a> </p>
+<p>.NET Client for Google Maps APIs Services is a .NET Client library for the following Google Maps APIs:</p>
+<ul>
+<li><a href="https://developers.google.com/maps/documentation/geocoding">Geocoding API</a></li>
+</ul>
+<h2 id="getting-started">Getting started</h2>
+<h3 id="requirements">Requirements</h3>
+<ul>
+<li>.NET 3.5 or later.</li>
+<li>A Google Maps API key.</li>
+</ul>
+<h3 id="api-keys">API keys</h3>
+<p>Each Google Maps Web Service request requires an API key or client ID. API keys
+are freely available with a Google Account at
+<a href="https://developers.google.com/console">https://developers.google.com/console</a>. The type of API key you need is a 
+<strong>Server key</strong>. </p>
+<p>To get an API key:</p>
 <ol>
-<li>Add images to the <em>images</em> folder if the file is referencing an image.</li>
+<li>Visit <a href="https://developers.google.com/console">https://developers.google.com/console</a> and log in with
+a Google Account.</li>
+<li>Select one of your existing projects, or create a new project.</li>
+<li>Enable the API(s) you want to use. The .NET Client for Google Maps Services
+accesses the following APIs:<ul>
+<li>Geocoding API</li>
+</ul>
+</li>
+<li>Create a new <strong>Server key</strong>.</li>
+<li>If you&#39;d like to restrict requests to a specific IP address, do so now.</li>
 </ol>
+<p>For guided help, follow the instructions for the [Directions API][directions-key]. 
+You only need one API key, but remember to enable all the APIs you need.
+For even more information, see the guide to [API keys][apikey].</p>
+<p><strong>Important:</strong> This key should be kept secret on your server.</p>
+<h3 id="installation">Installation</h3>
+<p>To install Google Maps API Services Client Library, run the following command in the Package Manager Console</p>
+<pre><code>Install-Package Google.Maps.Client
+</code></pre><h2 id="features">Features</h2>
+<h3 id="geocoding">Geocoding</h3>
+<h4 id="address-geocoding-request">Address Geocoding Request</h4>
+<pre><code class="lang-csharp">GeocodingRequest request = new GeocodingRequest(&quot;plovdiv bulgaria&quot;);
+GeocodingResponse response = request.GetResponse();
+// GeocodingResponse response = request.GetResponseAsync();
+LatLng location = response.Results[0].Geometry.Location;
+double latitude = location.Latitude;
+double longitude = location.Longitude;
+// TODO use latitude/longitude values}}
+</code></pre><h4 id="reverse-geocoding-request">Reverse Geocoding Request</h4>
+<pre><code class="lang-csharp">GeocodingRequest request = new GeocodingRequest(42.1438409, 24.7495615);
+GeocodingResponse response = request.GetResponse();
+string address = response.Results[0].FormattedAddress;
+// TODO use address values
+</code></pre><h4 id="async-requestresponse">Async Request/Response</h4>
+<p>Builds for all .NET frameworks support async request/response now.</p>
+<pre><code class="lang-csharp">// NET35 &amp; NET40 async get request
+GeocodingRequest request = new GeocodingRequest(&quot;plovdiv bulgaria&quot;);
+GeocodingResponse response = request.GetResponseAsync();
+</code></pre><pre><code class="lang-csharp">// NET45 async get request
+GeocodingRequest request = new GeocodingRequest(&quot;plovdiv bulgaria&quot;);
+GeocodingResponse response = await request.GetResponseAsync();
+</code></pre><h3 id="context">Context</h3>
+<p><a href="https://github.com/velyo/google-maps-services/blob/master/src/Client/MapsApiContext.cs">MapsApiContext</a> was added to share common settings between Google Maps API requests.<br>New instance of context can be created with the seetings to use, or can be loaded from config app settings (app.config or web.config).
+There is a default instance of the context (MapsApiContext.Default) which by default will try to load from config app settings or use default value per setting.<br>Default settings&#39; values:</p>
+<pre><code class="lang-csharp">DefaultGeocodeApiUrl = &quot;https://maps.google.com/maps/api/geocode/json?&quot;;
+DefaultAutoRetry = true;
+DefaultRetryDelay = 100;// in milliseconds
+DefaultRetryTimes = 5;
+</code></pre><p>A sample config app settings:</p>
+<pre><code class="lang-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;configuration&gt;
+    &lt;appSettings&gt;
+        &lt;add key=&quot;GoogleMaps.ApiKey&quot; value=&quot;API_KEY&quot;/&gt;
+        &lt;!--next is optional, by default https://maps.google.com/maps/api/geocode/json? will be used--&gt;
+        &lt;add key=&quot;GoogleMaps.GeocodeApiUrl&quot; value=&quot;API_URL&quot;/&gt;
+        &lt;add key=&quot;GoogleMaps.AutoRetry&quot; value=&quot;true&quot;/&gt;
+        &lt;add key=&quot;GoogleMaps.RetryDelay&quot; value=&quot;100&quot;/&gt;
+        &lt;add key=&quot;GoogleMaps.RetryTimes&quot; value=&quot;5&quot;/&gt;
+    &lt;/appSettings&gt;
+&lt;/configuration&gt;
+</code></pre><p>When creating requests without an instance of MapsApiContext, default instance will be used.</p>
+<h2 id="contribute">Contribute</h2>
+<p>Check out the <a href="https://github.com/velyo/google-maps-services/blob/master/CONTRIBUTING.md">contribution guidelines</a> if you want to contribute to this project.</p>
+<h2 id="credits">Credits</h2>
+<ul>
+<li>Thanks to <a href="https://github.com/rsuter">Rico Suter</a> for <a href="https://github.com/MyToolkit/MyToolkit/blob/master/src/MyToolkit/Utilities/TaskSynchronizationScope.cs">TaskSynchronizationScope</a> used to synchronize async code blocks</li>
+</ul>
+<h2 id="license">License</h2>
+<p><a href="https://github.com/velyo/google-maps-services/blob/master/LICENSE">MIT</a></p>
 
             </article>
           </div>
