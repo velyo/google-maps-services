@@ -4,7 +4,7 @@ using System.Globalization;
 namespace Velyo.Google.Services.Models
 {
     /// <summary>
-    /// 
+    /// A LatLng is a point in geographical coordinates: latitude and longitude.
     /// </summary>
     [Serializable]
     public class LatLng : IEquatable<LatLng>

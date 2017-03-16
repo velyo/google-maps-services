@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "src\Client\Client.csproj", "{1F0D1656-CF0D-4704-91D4-90A39E91B908}"
 EndProject
@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{B16FD363
 		appveyor.yml = appveyor.yml
 		build.cmd = build.cmd
 		build.fsx = build.fsx
+		docgen.cmd = docgen.cmd
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8AF6E686-EE31-4CCF-A74A-3658E0F15A47}"
@@ -22,6 +23,54 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docfx", "docfx", "{592A5B95-C49F-4916-9551-47CF79833BF3}"
+	ProjectSection(SolutionItems) = preProject
+		src\docfx\.gitignore = src\docfx\.gitignore
+		src\docfx\docfx.json = src\docfx\docfx.json
+		src\docfx\index.md = src\docfx\index.md
+		src\docfx\toc.yml = src\docfx\toc.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{B941F581-1C2F-4E41-8ACF-C7838313DDDC}"
+	ProjectSection(SolutionItems) = preProject
+		src\docfx\api\.gitignore = src\docfx\api\.gitignore
+		src\docfx\api\.manifest = src\docfx\api\.manifest
+		src\docfx\api\index.md = src\docfx\api\index.md
+		src\docfx\api\MyToolkit.Utilities.TaskSynchronizationScope.yml = src\docfx\api\MyToolkit.Utilities.TaskSynchronizationScope.yml
+		src\docfx\api\MyToolkit.Utilities.yml = src\docfx\api\MyToolkit.Utilities.yml
+		src\docfx\api\toc.yml = src\docfx\api\toc.yml
+		src\docfx\api\Velyo.Google.Services.GeocodingRequest.yml = src\docfx\api\Velyo.Google.Services.GeocodingRequest.yml
+		src\docfx\api\Velyo.Google.Services.GeocodingResponse.yml = src\docfx\api\Velyo.Google.Services.GeocodingResponse.yml
+		src\docfx\api\Velyo.Google.Services.GeocodingResponseData.JsonAddress.yml = src\docfx\api\Velyo.Google.Services.GeocodingResponseData.JsonAddress.yml
+		src\docfx\api\Velyo.Google.Services.GeocodingResponseData.JsonBounds.yml = src\docfx\api\Velyo.Google.Services.GeocodingResponseData.JsonBounds.yml
+		src\docfx\api\Velyo.Google.Services.GeocodingResponseData.JsonGeometry.yml = src\docfx\api\Velyo.Google.Services.GeocodingResponseData.JsonGeometry.yml
+		src\docfx\api\Velyo.Google.Services.GeocodingResponseData.JsonLocation.yml = src\docfx\api\Velyo.Google.Services.GeocodingResponseData.JsonLocation.yml
+		src\docfx\api\Velyo.Google.Services.GeocodingResponseData.JsonResult.yml = src\docfx\api\Velyo.Google.Services.GeocodingResponseData.JsonResult.yml
+		src\docfx\api\Velyo.Google.Services.GeocodingResponseData.yml = src\docfx\api\Velyo.Google.Services.GeocodingResponseData.yml
+		src\docfx\api\Velyo.Google.Services.GeocodingResponseStatus.yml = src\docfx\api\Velyo.Google.Services.GeocodingResponseStatus.yml
+		src\docfx\api\Velyo.Google.Services.GeocodingResult.yml = src\docfx\api\Velyo.Google.Services.GeocodingResult.yml
+		src\docfx\api\Velyo.Google.Services.MapsApi.yml = src\docfx\api\Velyo.Google.Services.MapsApi.yml
+		src\docfx\api\Velyo.Google.Services.MapsApiContext.yml = src\docfx\api\Velyo.Google.Services.MapsApiContext.yml
+		src\docfx\api\Velyo.Google.Services.Models.AddressComponent.yml = src\docfx\api\Velyo.Google.Services.Models.AddressComponent.yml
+		src\docfx\api\Velyo.Google.Services.Models.AddressType.yml = src\docfx\api\Velyo.Google.Services.Models.AddressType.yml
+		src\docfx\api\Velyo.Google.Services.Models.Bounds.yml = src\docfx\api\Velyo.Google.Services.Models.Bounds.yml
+		src\docfx\api\Velyo.Google.Services.Models.Geometry.yml = src\docfx\api\Velyo.Google.Services.Models.Geometry.yml
+		src\docfx\api\Velyo.Google.Services.Models.LatLng.yml = src\docfx\api\Velyo.Google.Services.Models.LatLng.yml
+		src\docfx\api\Velyo.Google.Services.Models.LocationType.yml = src\docfx\api\Velyo.Google.Services.Models.LocationType.yml
+		src\docfx\api\Velyo.Google.Services.Models.yml = src\docfx\api\Velyo.Google.Services.Models.yml
+		src\docfx\api\Velyo.Google.Services.yml = src\docfx\api\Velyo.Google.Services.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apidoc", "apidoc", "{72C374B9-DEA8-4DA5-922C-0DA8C2A488C0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "articles", "articles", "{C7FE0466-C7EC-427D-AFBA-3150F0DD3E90}"
+	ProjectSection(SolutionItems) = preProject
+		src\docfx\articles\intro.md = src\docfx\articles\intro.md
+		src\docfx\articles\toc.yml = src\docfx\articles\toc.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{1F02B334-0BDC-47F1-BB05-5889ED3A4F7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,5 +109,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B941F581-1C2F-4E41-8ACF-C7838313DDDC} = {592A5B95-C49F-4916-9551-47CF79833BF3}
+		{72C374B9-DEA8-4DA5-922C-0DA8C2A488C0} = {592A5B95-C49F-4916-9551-47CF79833BF3}
+		{C7FE0466-C7EC-427D-AFBA-3150F0DD3E90} = {592A5B95-C49F-4916-9551-47CF79833BF3}
+		{1F02B334-0BDC-47F1-BB05-5889ED3A4F7D} = {592A5B95-C49F-4916-9551-47CF79833BF3}
 	EndGlobalSection
 EndGlobal
