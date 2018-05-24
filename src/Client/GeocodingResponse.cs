@@ -11,7 +11,7 @@ namespace Velyo.Google.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="GeocodingResponse"/> class.
         /// </summary>
-        internal GeocodingResponse() { }
+        protected internal GeocodingResponse() { }
 
 
         /// <summary>
