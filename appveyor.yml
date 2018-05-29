@@ -20,7 +20,7 @@
     patch: true
     assembly_version: '{version}'
     assembly_file_version: '{version}'
-  test: on
+  test: off
   artifacts: 
     - path: '**\*.nupkg'
   deploy:
